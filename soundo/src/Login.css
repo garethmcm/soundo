@@ -1,0 +1,10 @@
+.loginSection {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+input {
+    width: 150px;
+}

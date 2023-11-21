@@ -1,0 +1,25 @@
+.audioComponentDisplay {
+  display: flex;
+  flex-direction: row;
+}
+
+.paramDials {
+  display: flex;
+  flex-direction: column;
+}
+
+.sampleTitle {
+  min-width: 90px;
+} 
+
+.playerButtonBox {
+    display: flex;
+  }
+  
+.buttons {
+  background-color: #669BBC;
+  color: #FDF0D5;
+    margin: 3px;
+    min-width: 70px;
+  }
+

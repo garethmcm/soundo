@@ -34,7 +34,7 @@ function App(props: AppProps) {
         <Route path="/" element={<LandingSpiel />} />
         <Route path="/Background" element={<BackgroundSpiel />} />
         <Route path="/AudioBasics/*" element={<AudioBasics />} />
-        <Route path="/AdvancedTechniques" element={<AdvancedTechniques />} />
+        <Route path="/AdvancedTechniques/*" element={<AdvancedTechniques />} />
         <Route path="/TipsTricks" element={<TipsTricksSpiel />} />
         <Route path="/Forum" element={<Forum />} />
         <Route path="/OtherResources" element={<OtherResourcesSpiel />} />

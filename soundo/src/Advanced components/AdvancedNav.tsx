@@ -5,11 +5,11 @@ function TechniquesNav() {
   return (
     <>
       <div className="techniquesNav">
-        {/* <Link to="/AudioBasics">How sound works</Link>
-        <Link to="/AudioBasics/Equalisation">Equalisation</Link>
-        <Link to="/AudioBasics/Compression">Compression</Link>
-        <Link to="/AudioBasics/Delay">Delay</Link>
-        <Link to="/AudioBasics/Reverb">Reverb</Link> */}
+        <Link to="/AdvancedTechniques">Here is the more advanced stuff</Link>
+        <Link to="/AdvancedTechniques/Distortion">Distortion</Link>
+        <Link to="/AdvancedTechniques/Phase">Phase</Link>
+        <Link to="/AdvancedTechniques/Multitrack">Multitrack</Link>
+        <Link to="/AdvancedTechniques/ParallelRouting">Parallel routing</Link>
       </div>
     </>
   );

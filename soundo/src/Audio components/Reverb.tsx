@@ -2,12 +2,12 @@ import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Reverb } from "tone";
 
-import audioPath1 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/YOU ARE MY SUNSHINE.mp3";
-import audioPath2 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
-import audioPath3 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/DEEP ELEM BLUES.mp3";
+import audioPath1 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/YOU ARE MY SUNSHINE.mp3";
+import audioPath2 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
+import audioPath3 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/DEEP ELEM BLUES.mp3";
 
-import playButton from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/node_modules/bootstrap-icons/icons/play-circle.svg";
+import stopButton from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/node_modules/bootstrap-icons/icons/stop-circle.svg";
 
 interface ReverbItems {
   noteAllocation: string;
@@ -21,7 +21,7 @@ const reverbPlaylist: ReverbItems[] = [
   { noteAllocation: "E4", fileLocation: audioPath3, sampleTitle: "Deep Elem" },
 ];
 
-const Reverb: React.FC = () => {
+const ReverbEffect: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const reverb = useRef<Reverb | null>(null);
@@ -139,4 +139,4 @@ const Reverb: React.FC = () => {
   );
 };
 
-export default Reverb;
+export default ReverbEffect;

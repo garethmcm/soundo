@@ -2,12 +2,12 @@ import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, FeedbackDelay } from "tone";
 
-import audioPath1 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/YOU ARE MY SUNSHINE.mp3";
-import audioPath2 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
-import audioPath3 from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/assets/DEEP ELEM BLUES.mp3";
+import audioPath1 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/YOU ARE MY SUNSHINE.mp3";
+import audioPath2 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
+import audioPath3 from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/assets/DEEP ELEM BLUES.mp3";
 
-import playButton from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/Users/gareth/Documents/Uni/Individual project/Soundo project/soundo/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/node_modules/bootstrap-icons/icons/play-circle.svg";
+import stopButton from "/Users/gareth/Desktop/Uni/Individual project/soundo/soundo/node_modules/bootstrap-icons/icons/stop-circle.svg";
 
 interface DelayItems {
   noteAllocation: string;

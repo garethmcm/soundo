@@ -1,9 +1,105 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Black.ttf') format('truetype');
+
+  font-weight: black;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-BlackItalic.ttf') format('truetype');
+
+  font-weight: black;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-BoldItalic.ttf') format('truetype');
+
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Italic.ttf') format('truetype');
+
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Light.ttf') format('truetype');
+
+  font-weight: light;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-LightItalic.ttf') format('truetype');
+
+  font-weight: light;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+
+  font-weight: medium;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-MediumItalic.ttf') format('truetype');
+
+  font-weight: medium;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+
+  font-weight: regular;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-Thin.ttf') format('truetype');
+
+  font-weight: thin;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/Fonts/Roboto/Roboto-ThinItalic.ttf') format('truetype');
+
+  font-weight: thin;
+  font-style: italic;
+}
+
 body {
   background-color: #669BBC;
   color: #FDF0D5;
   display: flex;
   flex-direction: column;
-  font-family: "Museo Slab", serif;
+  font-family: "Roboto", sans serif;
 }
 
 header {

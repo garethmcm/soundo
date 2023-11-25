@@ -1,5 +1,5 @@
 import "../App.css";
-import "./AudioComponents.css";
+import "../Audio components/AudioComponents.css";
 
 import { Route, Routes } from "react-router-dom";
 

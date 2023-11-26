@@ -72,8 +72,8 @@ const Delay: React.FC = () => {
 
   const adjustDelay = (delayTime: number, feedback: number) => {
     if (delay.current) {
-      delay.current.delayTime = delayTime;
-      delay.current.feedback = feedback;
+      delayTime = delayTime;
+      feedback = feedback;
     }
   };
 
@@ -112,7 +112,7 @@ const Delay: React.FC = () => {
               onChange={(e) =>
                 adjustDelay(
                   parseFloat(e.target.value),
-                  delay.current?.feedback || 0
+                  feedback
                 )
               }
             />
@@ -127,7 +127,7 @@ const Delay: React.FC = () => {
               defaultValue="0.5"
               onChange={(e) =>
                 adjustDelay(
-                  delay.current?.delayTime || 0.5,
+                  delayTime,
                   parseFloat(e.target.value)
                 )
               }

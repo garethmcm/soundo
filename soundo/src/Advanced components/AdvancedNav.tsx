@@ -5,7 +5,7 @@ function TechniquesNav() {
   return (
     <>
       <div className="techniquesNav">
-        <Link to="/AdvancedTechniques">Here is the more advanced stuff</Link>
+        <Link to="/AdvancedTechniques">Advanced stuff</Link>
         <Link to="/AdvancedTechniques/Distortion">Distortion</Link>
         <Link to="/AdvancedTechniques/Phase">Phase</Link>
         <Link to="/AdvancedTechniques/Multitrack">Multitrack</Link>

@@ -102,11 +102,17 @@ body {
   font-family: "Roboto", sans serif;
 }
 
-header {
+.headerComponent {
   display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
+  display: row;
+  justify-content: space-between;
+  width: 100%
+}
 
+header {
+
+  display: flex;
+  flex-direction: column;
 }
 
 h2 {
@@ -114,7 +120,9 @@ h2 {
 }
 
 .logo {
-  width: 300px;
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 10px;
 }
 
 .login {
@@ -126,12 +134,12 @@ nav {
   border-radius: 5px;
   padding: 2px;
   font-size: large;
+  font-weight: bold;
   display: flex;
   flex-direction: row;
   justify-content:space-evenly;
   background-color: #FDF0D5;
   color: #003049;
-  
 }
 
 .sectionBody {
@@ -151,6 +159,7 @@ footer {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  font-weight: bold;
 }
 
 .techniquesNav {
@@ -166,7 +175,7 @@ footer {
   color: #003049;
   margin-top: 20px;
   margin-right: 20px;
-  min-width: 165px;
+  width: 165px;
 }
 
 .techniquesBody {

@@ -10,7 +10,7 @@ import Phase from "../Advanced components/Phase";
 import Multitrack from "../Advanced components/Multitrack";
 import ParallelRouting from "../Advanced components/ParallelRouting";
 
-function AudioBasics() {
+function AdvancedTechniques() {
   return (
     <div className="audioBasics">
       <div>
@@ -29,4 +29,4 @@ function AudioBasics() {
   );
 }
 
-export default AudioBasics;
+export default AdvancedTechniques;

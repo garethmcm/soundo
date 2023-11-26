@@ -1,6 +1,6 @@
 import "../Audio components/AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, Compressor } from "tone";
+import { Sampler, Distortion } from "tone";
 
 import audioPath1 from "/assets/YOU ARE MY SUNSHINE.mp3";
 import audioPath2 from "/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
@@ -15,23 +15,22 @@ interface CompItems {
   sampleTitle: string;
 }
 
-const compPlaylist: CompItems[] = [
+const distortPlaylist: CompItems[] = [
   { noteAllocation: "C4", fileLocation: audioPath1, sampleTitle: "Sunshine" },
   { noteAllocation: "D4", fileLocation: audioPath2, sampleTitle: "The Rain" },
   { noteAllocation: "E4", fileLocation: audioPath3, sampleTitle: "Deep Elem" },
 ];
 
-const Distortion: React.FC = () => {
+const DistortionComponent: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const compressor = useRef<Compressor | null>(null);
-  const [attack, setAttack] = useState(0.1);
-  const [release, setRelease] = useState(0.5);
+  const distort = useRef<Distortion | null>(null);
+  const [distortion, setDistortion] = useState(0.5);
 
   useEffect(() => {
     sampler.current = new Sampler(
       Object.fromEntries(
-        compPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
+        distortPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
       ),
       {
         onload: () => {
@@ -40,23 +39,20 @@ const Distortion: React.FC = () => {
       }
     );
 
-    compressor.current = new Compressor({
-      threshold: -20,
-      ratio: 4,
-      attack: 0.1,
-      release: 0.5,
+    distort.current = new Distortion({
+      distortion: 0.5,
     }).toDestination();
 
-    if (sampler.current && compressor.current) {
-      sampler.current.connect(compressor.current);
+    if (sampler.current && distort.current) {
+      sampler.current.connect(distort.current);
     }
 
     return () => {
       if (sampler.current) {
         sampler.current.dispose();
       }
-      if (compressor.current) {
-        compressor.current.dispose();
+      if (distort.current) {
+        distort.current.dispose();
       }
     };
   }, []);
@@ -73,27 +69,21 @@ const Distortion: React.FC = () => {
     }
   };
 
-  const adjustCompressor = (
-    threshold: number,
-    ratio: number,
-    attack: number,
-    release: number
+  const adjustDistortion = (
+    distortion: number,
   ) => {
-    if (compressor.current) {
-      compressor.current.threshold.value = threshold;
-      compressor.current.ratio.value = ratio;
-      compressor.current.attack.value = attack;
-      compressor.current.release.value = release;
+    if (distort.current) {
+      distort.current.distortion = distortion;
     }
   };
 
   return (
     <div>
-      <h1>Compression</h1>
+      <h1>Distortion</h1>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
-            {compPlaylist.map((item) => (
+            {distortPlaylist.map((item) => (
               <div className="playerButtonBox" key={item.noteAllocation}>
                 <h2 className="sampleTitle">{item.sampleTitle}</h2>
                 <div
@@ -112,80 +102,19 @@ const Distortion: React.FC = () => {
         </div>
         <div className="paramDials">
           <label>
-            Threshold:
-            <input
-              type="range"
-              min="-80"
-              max="0"
-              step="1"
-              defaultValue="-20"
-              onChange={(e) =>
-                adjustCompressor(
-                  parseFloat(e.target.value),
-                  compressor.current?.ratio.value || 4,
-                  attack,
-                  release
-                )
-              }
-            />
-          </label>
-          <label>
-            Ratio:
-            <input
-              type="range"
-              min="1"
-              max="20"
-              step="1"
-              defaultValue="4"
-              onChange={(e) =>
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
-                  parseFloat(e.target.value),
-                  attack,
-                  release
-                )
-              }
-            />
-          </label>
-          <label>
-            Attack:
+            Distortion:
             <input
               type="range"
               min="0"
               max="1"
-              step="0.01"
-              defaultValue="0.1"
-              onChange={(e) => {
-                setAttack(parseFloat(e.target.value));
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
-                  compressor.current?.ratio.value || 4,
-                  parseFloat(e.target.value),
-                  release
-                );
-              }}
-            />
-            {attack}
-          </label>
-          <label>
-            Release:
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
+              step="0.1"
               defaultValue="0.5"
-              onChange={(e) => {
-                setRelease(parseFloat(e.target.value));
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
-                  compressor.current?.ratio.value || 4,
-                  attack,
-                  parseFloat(e.target.value)
-                );
-              }}
+              onChange={(e) =>
+                adjustDistortion(
+                  parseFloat(e.target.value),
+                )
+              }
             />
-            {release}
           </label>
         </div>
       </div>
@@ -193,4 +122,4 @@ const Distortion: React.FC = () => {
   );
 };
 
-export default Distortion;
+export default DistortionComponent;

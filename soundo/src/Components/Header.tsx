@@ -1,14 +1,20 @@
 import "../App.css";
 import TopLogo from "/assets/Soundo logo alt.svg";
+import Homer from "/assets/house-fill.svg"
 import { Link } from "react-router-dom";
 
 type HeaderProps = {
   hideNav: () => void;
+  showNav: () => void;
 };
 
-function Header({ hideNav }: HeaderProps) {
+function Header({ hideNav, showNav }: HeaderProps) {
   return (
-    <header>
+    <header> 
+      <div className="headerComponent">       
+      <Link to="/">
+    <img src={Homer} alt="Soundo" onClick={showNav}/>
+      </Link>
       <div className="login">
         <Link to="Login" onClick={hideNav}>
           Login
@@ -18,10 +24,10 @@ function Header({ hideNav }: HeaderProps) {
           Register
         </Link>
       </div>
-      <div>
-        <br />
+      </div>
+      <div className="logo">
         <Link to="/">
-          <img src={TopLogo} alt="Soundo" className="logo" />
+          <img src={TopLogo} alt="Soundo" onClick={showNav}/>
         </Link>
       </div>
     </header>

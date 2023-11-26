@@ -10,6 +10,7 @@ function TechniquesNav() {
         <Link to="/AudioBasics/Compression">Compression</Link>
         <Link to="/AudioBasics/Delay">Delay</Link>
         <Link to="/AudioBasics/Reverb">Reverb</Link>
+        <Link to="/AudioBasics/ConvoReverb">Convolution Reverb</Link>
       </div>
     </>
   );

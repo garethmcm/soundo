@@ -1,6 +1,6 @@
 import "./App.css";
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Header from "./Components/Header";
 import TopNav from "./Components/TopNav";
@@ -18,17 +18,35 @@ import OtherResourcesSpiel from "./Components/OtherResourcesSpiel";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
-type AppProps = {};
+type NavHider = {};
 
-function App(props: AppProps) {
+function App(props: NavHider) {
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [changeBackground, setChangeBackground] = useState(false);
+  const navigate = useNavigate();
   const hideNav = () => {
     setIsNavVisible(false);
   };
 
+  const showNav = () => {
+    setIsNavVisible(true);
+  };
+
+  const advancedSelected = () => {
+    setChangeBackground(true);
+  };
+
+  useEffect(() => {
+    if (window.location.pathname === "/AdvancedTechniques") {
+      setChangeBackground(true);
+    } else {
+      setChangeBackground(false);
+    }
+  }, []);
+
   return (
     <body>
-      <Header hideNav={hideNav} />
+      <Header hideNav={hideNav} showNav={showNav} />
       {isNavVisible && <TopNav />}
       <Routes>
         <Route path="/" element={<LandingSpiel />} />

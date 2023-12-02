@@ -1,6 +1,7 @@
 import "../App.css";
 import "../Register.css";
 import { useState, ChangeEvent } from "react";
+import axios from 'axios';
 
 interface FormData {
   firstName: string;
@@ -22,6 +23,26 @@ function Register() {
     const newValue = evt.target.value;
     setFormData({ ...formData, [changedField]: newValue });
   };
+  
+  const handleRegister = async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            console.log('Registration successful');
+        } else {
+            console.error('Registration failed');
+        }
+    } catch (error) {
+        console.error('Error during registration:', error);
+    }
+};
 
   return (
     <section className="registerSection">
@@ -62,6 +83,7 @@ function Register() {
         id="password"
         name="password"
       />
+      <button onClick={handleRegister}>Register</button>
     </section>
   );
 }

@@ -1,6 +1,5 @@
 import "../App.css";
 import "../Login.css";
-import axios from "axios";
 import { useState, ChangeEvent } from "react";
 
 interface FormData {
@@ -20,27 +19,24 @@ function Login() {
     setFormData({ ...formData, [changedField]: newValue });
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   const user = {
-  //     username: formData.username,
-  //     password: formData.password,
-  //   };
-
-  //   try {
-  //     const response = await axios.post("http://localhot:8000/token/", user, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       withCredentials: true,
-  //     });
-  //     console.log("Login successful!", response.data);
-  //     window.location.href = "/";
-  //   } catch (error) {
-  //     console.error("Login failed", error);
-  //   }
-  // };
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData),
+      });
+      if(response.ok) {
+        console.log('Login successful');
+      } else {
+        console.error('Login failed');
+      }
+    } catch (error) {
+      console.error('Error during login: ', error)
+    }
+  };
 
   return (
     <section className="loginSection">
@@ -63,7 +59,7 @@ function Login() {
         id="password"
         name="password"
       />
-      <button> Submit</button>
+      <button onClick={handleSubmit}> Submit</button>
     </section>
   );
 }

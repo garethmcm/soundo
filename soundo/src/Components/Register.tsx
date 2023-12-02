@@ -1,7 +1,6 @@
 import "../App.css";
 import "../Register.css";
 import { useState, ChangeEvent } from "react";
-import axios from 'axios';
 
 interface FormData {
   firstName: string;

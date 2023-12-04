@@ -183,3 +183,7 @@ footer {
   flex-direction: column;
   align-items: flex-start;
 }
+
+section {
+  width: 1160px;
+}

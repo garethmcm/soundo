@@ -1,6 +1,8 @@
 import "../App.css";
 import { Link } from "react-router-dom";
 
+// links to sections of app
+
 function TopNav() {
   return (
       <nav className="navBar">

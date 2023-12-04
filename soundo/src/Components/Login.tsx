@@ -19,7 +19,7 @@ function Login() {
     setFormData({ ...formData, [changedField]: newValue });
   };
 
-  const handleSubmit = async () => {
+  const handleLogin = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/login/', {
         method: 'POST',
@@ -59,7 +59,7 @@ function Login() {
         id="password"
         name="password"
       />
-      <button onClick={handleSubmit}> Submit</button>
+      <button onClick={handleLogin}> Submit</button>
     </section>
   );
 }

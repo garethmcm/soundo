@@ -7,7 +7,6 @@ import TopNav from "./Components/TopNav";
 import Footer from "./Components/Footer";
 
 import LandingSpiel from "./Components/LandingSpiel";
-
 import AudioBasics from "./Audio components/AudioBasics";
 import AdvancedTechniques from "./Components/AdvancedTechniques";
 import BackgroundSpiel from "./Components/BackgroundSpiel";
@@ -18,12 +17,12 @@ import OtherResourcesSpiel from "./Components/OtherResourcesSpiel";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
+// function to determine if navbar is shown or not - does not show on register & login screen but does otherwise
+
 type NavHider = {};
 
 function App(props: NavHider) {
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [changeBackground, setChangeBackground] = useState(false);
-  const navigate = useNavigate();
   const hideNav = () => {
     setIsNavVisible(false);
   };
@@ -32,17 +31,7 @@ function App(props: NavHider) {
     setIsNavVisible(true);
   };
 
-  const advancedSelected = () => {
-    setChangeBackground(true);
-  };
-
-  useEffect(() => {
-    if (window.location.pathname === "/AdvancedTechniques") {
-      setChangeBackground(true);
-    } else {
-      setChangeBackground(false);
-    }
-  }, []);
+// app hierarchy, url routing handled
 
   return (
     <body>

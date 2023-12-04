@@ -2,9 +2,13 @@ import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Compressor } from "tone";
 
-import audioPath1 from "/assets/YOU ARE MY SUNSHINE.mp3";
-import audioPath2 from "/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
-import audioPath3 from "/assets/DEEP ELEM BLUES.mp3";
+import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
+import guitar from "/assets/AUDIO SAMPLES/GUITAR WITH VERB.wav";
+import bass from "/assets/AUDIO SAMPLES/BASS.wav";
+import drums from "/assets/AUDIO SAMPLES/DRUMS WITH VERB.wav";
+import piano from "/assets/AUDIO SAMPLES/PIANO.wav";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.wav";
+
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
@@ -15,11 +19,18 @@ interface CompItems {
   sampleTitle: string;
 }
 
+// audio samples allocated to midi notes on sampler
+
 const compPlaylist: CompItems[] = [
-  { noteAllocation: "C4", fileLocation: audioPath1, sampleTitle: "Sunshine" },
-  { noteAllocation: "D4", fileLocation: audioPath2, sampleTitle: "The Rain" },
-  { noteAllocation: "E4", fileLocation: audioPath3, sampleTitle: "Deep Elem" },
+  { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
+  { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
+  { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },
+  { noteAllocation: "F4", fileLocation: drums, sampleTitle: "Drums" },
+  { noteAllocation: "G4", fileLocation: piano, sampleTitle: "Piano" },
+  { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
+
+// initialise states
 
 const Compression: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
@@ -27,6 +38,9 @@ const Compression: React.FC = () => {
   const compressor = useRef<Compressor | null>(null);
   const [attack, setAttack] = useState(0.1);
   const [release, setRelease] = useState(0.5);
+  const [isHovering, setIsHovering] = useState(false);
+
+  // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -61,6 +75,8 @@ const Compression: React.FC = () => {
     };
   }, []);
 
+  // handles play and stop functions using sample trigger and release
+
   const handlePlay = (note: string) => {
     if (isLoaded && sampler.current) {
       sampler.current.triggerAttack(note);
@@ -72,6 +88,8 @@ const Compression: React.FC = () => {
       sampler.current.triggerRelease(note);
     }
   };
+
+  // used by html code below using slider to make adjustments
 
   const adjustCompressor = (
     threshold: number,
@@ -87,9 +105,18 @@ const Compression: React.FC = () => {
     }
   };
 
+  const handleMouseOn = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOff = () => {
+    setIsHovering(false);
+  };
+
   return (
     <div>
       <h1>Compression</h1>
+      <p className="blurb">This works by clamping down on a sound after it has passed a given level. </p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -111,8 +138,9 @@ const Compression: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
-          <label>
-            Threshold:
+          <div className="buttonSection">
+            <label>
+            Threshold: <br />
             <input
               type="range"
               min="-80"
@@ -127,10 +155,13 @@ const Compression: React.FC = () => {
                   release
                 )
               }
-            />
-          </label>
+            /> 
+            </label>
+              <div className="explainer">This sets how high the level of audio has to be before the compressor kicks in</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Ratio:
+            Ratio: <br />
             <input
               type="range"
               min="1"
@@ -147,8 +178,11 @@ const Compression: React.FC = () => {
               }
             />
           </label>
+              <div className="explainer">This is the intensity at which the audio over the threshold is compressed by</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Attack:
+            Attack: <br />
             <input
               type="range"
               min="0"
@@ -165,10 +199,12 @@ const Compression: React.FC = () => {
                 );
               }}
             />
-            {attack}
           </label>
+          {attack} <div className="explainer">How quickly compressor acts after it hits threshold</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Release:
+            Release: <br />
             <input
               type="range"
               min="0"
@@ -185,8 +221,10 @@ const Compression: React.FC = () => {
                 );
               }}
             />
-            {release}
           </label>
+          {release}
+              <div className="explainer">How long the compressor acts after it kicks in</div> 
+          </div>
         </div>
       </div>
     </div>

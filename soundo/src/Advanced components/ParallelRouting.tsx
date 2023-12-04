@@ -2,9 +2,12 @@ import "../Audio components/AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Compressor } from "tone";
 
-import audioPath1 from "/assets/YOU ARE MY SUNSHINE.mp3";
-import audioPath2 from "/assets/HAVE YOU EVER SEEN THE RAIN.mp3";
-import audioPath3 from "/assets/DEEP ELEM BLUES.mp3";
+import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
+import guitar from "/assets/AUDIO SAMPLES/GUITAR WITH VERB.wav";
+import bass from "/assets/AUDIO SAMPLES/BASS.wav";
+import drums from "/assets/AUDIO SAMPLES/DRUMS WITH VERB.wav";
+import piano from "/assets/AUDIO SAMPLES/PIANO.wav";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.wav";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
@@ -16,9 +19,12 @@ interface CompItems {
 }
 
 const compPlaylist: CompItems[] = [
-  { noteAllocation: "C4", fileLocation: audioPath1, sampleTitle: "Sunshine" },
-  { noteAllocation: "D4", fileLocation: audioPath2, sampleTitle: "The Rain" },
-  { noteAllocation: "E4", fileLocation: audioPath3, sampleTitle: "Deep Elem" },
+  { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
+  { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
+  { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },
+  { noteAllocation: "F4", fileLocation: drums, sampleTitle: "Drums" },
+  { noteAllocation: "G4", fileLocation: piano, sampleTitle: "Piano" },
+  { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
 const Parallel: React.FC = () => {

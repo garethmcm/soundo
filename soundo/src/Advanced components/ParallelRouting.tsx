@@ -3,11 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { Sampler, Compressor } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
-import guitar from "/assets/AUDIO SAMPLES/GUITAR WITH VERB.wav";
-import bass from "/assets/AUDIO SAMPLES/BASS.wav";
-import drums from "/assets/AUDIO SAMPLES/DRUMS WITH VERB.wav";
-import piano from "/assets/AUDIO SAMPLES/PIANO.wav";
-import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.wav";
+import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
+import bass from "/assets/AUDIO SAMPLES/BASS.mp3";
+import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
+import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";

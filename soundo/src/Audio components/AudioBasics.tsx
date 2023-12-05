@@ -7,7 +7,7 @@ import TechniquesNav from "./TechniquesNav";
 import AudioLanding from "./AudioLanding";
 import Compression from "./Compression";
 import Equalisation from "./Equalisation";
-import Delay from "./Delay";
+import Delay from "./FeedbackDelay";
 import Reverb from "./Reverb";
 import ConvoReverb from "./ConvoReverb";
 

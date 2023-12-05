@@ -1,24 +1,27 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, FeedbackDelay, Gain } from "tone";
+import { Sampler, FeedbackDelay } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
 import bass from "/assets/AUDIO SAMPLES/BASS.mp3";
 import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
-import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3"; 
+
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
 
-interface DelayItems {
+interface delayItems {
   noteAllocation: string;
   fileLocation: string;
   sampleTitle: string;
 }
 
-const delayPlaylist: DelayItems[] = [
+// audio samples allocated to midi notes on sampler
+
+const delayPlaylist: delayItems[] = [
   { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
   { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
   { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },
@@ -27,13 +30,15 @@ const delayPlaylist: DelayItems[] = [
   { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
+// initialise states
+
 const Delay: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const delay = useRef<FeedbackDelay | null>(null);
-  const [delayTime, setDelayTime] = useState(0.5);
-  const [feedback, setFeedback] = useState(0.5);
-  const [wet, setWet] = useState(0.5);
+  const [delayTime, setDelayTime] = useState(0.1);
+
+  // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -48,9 +53,10 @@ const Delay: React.FC = () => {
     );
 
     delay.current = new FeedbackDelay({
-      delayTime: delayTime,
-      feedback: feedback,
-    });
+      delayTime: 1,
+      feedback: 0.5,
+      wet: 0.5
+    }).toDestination();
 
     if (sampler.current && delay.current) {
       sampler.current.connect(delay.current);
@@ -64,7 +70,9 @@ const Delay: React.FC = () => {
         delay.current.dispose();
       }
     };
-  }, [delayTime, feedback]);
+  }, []);
+
+  // handles play and stop functions using sample trigger and release
 
   const handlePlay = (note: string) => {
     if (isLoaded && sampler.current) {
@@ -78,24 +86,26 @@ const Delay: React.FC = () => {
     }
   };
 
-  const adjustDelay = (newDelayTime: number, newFeedback: number) => {
-    if (delay.current) {
-      delay.current.delayTime = setDelayTime;
-      delay.current.feedback = setFeedback;
-      setDelayTime(newDelayTime);
-      setFeedback(newFeedback);
-    }
-  };
+  // used by html code below using slider to make adjustments
 
-  const adjustWet = (newWet: number) => {
-    setWet(newWet);
+  const adjustDelay = (
+    delayTime: number,
+    feedback: number,
+    wet: number
+  ) => {
+    if (delay.current) {
+      delay.current.delayTime.value = delayTime;
+      delay.current.feedback.value = feedback;
+      delay.current.wet.value = wet;
+    }
   };
 
   return (
     <div>
       <h1>Delay</h1>
+      <p className="blurb">This gives a repeat of the audio signal that plays after the original to give a spacial effect.</p>
       <div className="audioComponentDisplay">
-      <div className="playerButtonBox">
+        <div className="playerButtonBox">
           <div>
             {delayPlaylist.map((item) => (
               <div className="playerButtonBox" key={item.noteAllocation}>
@@ -115,39 +125,66 @@ const Delay: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
-          <label>
-            Delay Time (s):
+          <div className="buttonSection">
+            <label>
+            Time: <br />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="0.1"
+              defaultValue="50"
+              onChange={(e) =>
+                adjustDelay(
+                  parseFloat(e.target.value),
+                  delay.current?.feedback.value || 4,
+                  delay.current?.wet.value || 4,
+                )
+              }
+            /> 
+            </label>
+              <div className="explainer">This sets how high the level of audio has to be before the compressor kicks in</div>
+          </div>
+          <div className="buttonSection">
+            <label>
+            Repeats: <br />
             <input
               type="range"
               min="0"
               max="1"
               step="0.01"
-              defaultValue={delayTime.toString()}
-              onChange={(e) => adjustDelay(parseFloat(e.target.value), feedback)}
-            />
-          </label>
-          <label>
-            Feedback:
+              defaultValue="0.5"
+              onChange={(e) =>
+                adjustDelay(
+                delayTime,
+                parseFloat(e.target.value),
+                delay.current?.wet.value || 4,
+                )
+              }
+            /> 
+            </label>
+              <div className="explainer">This sets how high the level of audio has to be before the compressor kicks in</div>
+          </div>
+          <div className="buttonSection">
+            <label>
+            Wet / Dry: <br />
             <input
               type="range"
               min="0"
               max="1"
               step="0.01"
-              defaultValue={feedback.toString()}
-              onChange={(e) => adjustDelay(delayTime, parseFloat(e.target.value))}
-            />
-          </label>
-          {/* <label>
-            Wet/Dry Mix:
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              defaultValue={wet.toString()}
-              onChange={(e) => adjustWet(parseFloat(e.target.value))}
-            />
-          </label> */}
+              defaultValue="0.5"
+              onChange={(e) =>
+                adjustDelay(
+                delayTime,
+                delay.current?.feedback.value || 4,
+                parseFloat(e.target.value),
+                )
+              }
+            /> 
+            </label>
+              <div className="explainer">Sets ratio of unaffected signal to affected signal</div>
+          </div>
         </div>
       </div>
     </div>

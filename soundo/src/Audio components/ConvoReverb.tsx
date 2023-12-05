@@ -65,13 +65,13 @@ const ReverbComponent: React.FC = () => {
     );
 
     convolver.current = new Convolver();
-    reverbLevel.current = new Gain(0.5);
-    samplerLevel.current = new Gain(0.5);
+    reverbLevel.current = new Gain(0.5).toDestination();
+    samplerLevel.current = new Gain(0.5).toDestination();
 
     if (sampler.current && convolver.current) {
       sampler.current.connect(convolver.current);
-      convolver.current.connect(reverbLevel.current).toDestination();
-      sampler.current.connect(samplerLevel.current).toDestination();
+      convolver.current.connect(reverbLevel.current);
+      sampler.current.connect(samplerLevel.current);
     }
 
     return () => {
@@ -104,13 +104,14 @@ const ReverbComponent: React.FC = () => {
     }
   };
 
-  // const adjustReverb = (
-  //   sliderValue: number
-  // ) => {
-  //   if(convolver.current && sampler.current) {
-  //     convolver.current.output. = sliderValue;
-  //   }
-  // }
+  const adjustReverb = (
+    sliderValue: number
+  ) => {
+    if(reverbLevel.current && samplerLevel.current) {
+      reverbLevel.current.gain.value = sliderValue;
+      samplerLevel.current.gain.value = 1 - sliderValue;
+    }
+  }
 
   return (
     <div>
@@ -160,11 +161,11 @@ const ReverbComponent: React.FC = () => {
             Mix: <br />
             <input
               type="range"
-              min="-0.5"
-              max="0.5"
+              min="0"
+              max="1"
               step="0.01"
-              defaultValue="0"
-              onChange={(e) => parseFloat(e.target.value)}
+              defaultValue="0.5"
+              onChange={(e) => adjustReverb(parseFloat(e.target.value))}
             />
           </label>
           <div className="explainer">The ratio of affected to unaffected sound</div>

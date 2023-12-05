@@ -12,6 +12,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Time } from "tone/build/esm/core/type/Units";
 
 interface delayItems {
   noteAllocation: string;
@@ -36,7 +37,6 @@ const Delay: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const delay = useRef<FeedbackDelay | null>(null);
-  const [delayTime, setDelayTime] = useState(0.1);
 
   // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
@@ -89,7 +89,7 @@ const Delay: React.FC = () => {
   // used by html code below using slider to make adjustments
 
   const adjustDelay = (
-    delayTime: number,
+    delayTime: Time,
     feedback: number,
     wet: number
   ) => {
@@ -131,7 +131,7 @@ const Delay: React.FC = () => {
             <input
               type="range"
               min="0"
-              max="100"
+              max="500"
               step="0.1"
               defaultValue="50"
               onChange={(e) =>
@@ -156,9 +156,9 @@ const Delay: React.FC = () => {
               defaultValue="0.5"
               onChange={(e) =>
                 adjustDelay(
-                delayTime,
+                delay.current?.delayTime.value || 1,
                 parseFloat(e.target.value),
-                delay.current?.wet.value || 4,
+                delay.current?.wet.value || 0.5,
                 )
               }
             /> 
@@ -176,8 +176,8 @@ const Delay: React.FC = () => {
               defaultValue="0.5"
               onChange={(e) =>
                 adjustDelay(
-                delayTime,
-                delay.current?.feedback.value || 4,
+                delay.current?.delayTime.value || 1,
+                delay.current?.feedback.value || 0.5,
                 parseFloat(e.target.value),
                 )
               }

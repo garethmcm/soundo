@@ -12,6 +12,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Time } from "tone/build/esm/core/type/Units";
 
 interface CompItems {
   noteAllocation: string;
@@ -93,8 +94,8 @@ const Compression: React.FC = () => {
   const adjustCompressor = (
     threshold: number,
     ratio: number,
-    attack: number,
-    release: number
+    attack: Time,
+    release: Time
   ) => {
     if (compressor.current) {
       compressor.current.threshold.value = threshold;
@@ -142,8 +143,8 @@ const Compression: React.FC = () => {
                 adjustCompressor(
                   parseFloat(e.target.value),
                   compressor.current?.ratio.value || 4,
-                  attack,
-                  release
+                  compressor.current?.attack.value || 0.1,
+                  compressor.current?.release.value || 0.5
                 )
               }
             /> 
@@ -163,8 +164,8 @@ const Compression: React.FC = () => {
                 adjustCompressor(
                   compressor.current?.threshold.value || -20,
                   parseFloat(e.target.value),
-                  attack,
-                  release
+                  compressor.current?.attack.value || 0.1,
+                  compressor.current?.release.value || 0.5
                 )
               }
             />
@@ -186,7 +187,7 @@ const Compression: React.FC = () => {
                   compressor.current?.threshold.value || -20,
                   compressor.current?.ratio.value || 4,
                   parseFloat(e.target.value),
-                  release
+                  compressor.current?.release.value || 0.5
                 );
               }}
             />
@@ -207,7 +208,7 @@ const Compression: React.FC = () => {
                 adjustCompressor(
                   compressor.current?.threshold.value || -20,
                   compressor.current?.ratio.value || 4,
-                  attack,
+                  compressor.current?.attack.value || 0.1,
                   parseFloat(e.target.value)
                 );
               }}

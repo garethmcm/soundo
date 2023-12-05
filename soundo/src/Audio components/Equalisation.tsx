@@ -33,9 +33,6 @@ const Equalizer: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const eq = useRef<EQ3 | null>(null);
-  // const [low, setLow] = useState(0);
-  // const [mid, setMid] = useState(0);
-  // const [high, setHigh] = useState(0);
   const [lowFrequency, setLowFrequency] = useState(0);
   const [highFrequency, setHighFrequency] = useState(0);
 

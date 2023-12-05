@@ -27,6 +27,8 @@ const eqPlaylist: EqItems[] = [
   { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
+// initialises states
+
 const Equalizer: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
@@ -34,6 +36,8 @@ const Equalizer: React.FC = () => {
   const [low, setLow] = useState(0);
   const [mid, setMid] = useState(0);
   const [high, setHigh] = useState(0);
+  const [lowFrequency, setLowFrequency] = useState(0);
+  const [highFrequency, setHighFrequency] = useState(0);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -51,6 +55,8 @@ const Equalizer: React.FC = () => {
       low: 1,
       mid: 1,
       high: 1,
+      lowFrequency: 400,
+      highFrequency: 2500,
     }).toDestination();
 
     if (sampler.current && eq.current) {
@@ -79,17 +85,22 @@ const Equalizer: React.FC = () => {
     }
   };
 
-  const adjustEQ = (low: number, mid: number, high: number) => {
+  const adjustEQ = (low: number, mid: number, high: number, lowFreq: number, highFreq: number) => {
     if (eq.current) {
       eq.current.low.value = low;
       eq.current.mid.value = mid;
       eq.current.high.value = high;
+      eq.current.lowFrequency.value = lowFreq;
+      eq.current.highFrequency.value = highFreq;
+      
     }
   };
+
 
   return (
     <div>
       <h1>Equalizer</h1>
+      <p className="blurb">This allows you to boost different parts of a sound, separated into low frequencies, mid frequencies and high frequencies</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -111,57 +122,114 @@ const Equalizer: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+          <div className="buttonSection">
           <label>
-            Low:
+            Low: <br />
             <input
               type="range"
-              min="-30"
-              max="30"
-              step="1"
+              min="-15"
+              max="15"
+              step="0.3"
               defaultValue="0"
               onChange={(e) =>
                 adjustEQ(
                   parseFloat(e.target.value),
                   eq.current?.mid.value || 0,
-                  eq.current?.high.value || 0
+                  eq.current?.high.value || 0,
+                  lowFrequency,
+                  highFrequency,
                 )
               }
             />
           </label>
+          <div className="explainer">Used to give sounds more weight, too much can sound boomy</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Mid:
+            Frequency selector: <br />
             <input
               type="range"
-              min="-30"
-              max="30"
-              step="1"
-              defaultValue="0"
-              onChange={(e) =>
-                adjustEQ(
-                  eq.current?.low.value || 0,
-                  parseFloat(e.target.value),
-                  eq.current?.high.value || 0
-                )
-              }
-            />
-          </label>
-          <label>
-            High:
-            <input
-              type="range"
-              min="-30"
-              max="30"
+              min="60"
+              max="800"
               step="1"
               defaultValue="0"
               onChange={(e) =>
                 adjustEQ(
                   eq.current?.low.value || 0,
                   eq.current?.mid.value || 0,
-                  parseFloat(e.target.value)
+                  eq.current?.high.value || 0,
+                  parseFloat(e.target.value),
+                  highFrequency,
                 )
               }
             />
           </label>
+        </div>
+          <div className="buttonSection">
+          <label>
+            Mid: <br />
+            <input
+              type="range"
+              min="-15"
+              max="15"
+              step="0.3"
+              defaultValue="0"
+              onChange={(e) =>
+                adjustEQ(
+                  eq.current?.low.value || 0,
+                  parseFloat(e.target.value),
+                  eq.current?.high.value || 0,
+                  lowFrequency,
+                  highFrequency,
+                )
+              }
+            />
+          </label>
+          <div className="explainer">Used for more definition, too much can sound grating</div>
+          </div>
+          <div className="buttonSection">
+          <label>
+            High: <br />
+            <input
+              type="range"
+              min="-15"
+              max="15"
+              step="0.3"
+              defaultValue="0"
+              onChange={(e) =>
+                adjustEQ(
+                  eq.current?.low.value || 0,
+                  eq.current?.mid.value || 0,
+                  parseFloat(e.target.value),
+                  lowFrequency,
+                  highFrequency,
+                )
+              }
+            />
+          </label>
+          <div className="explainer">Used for clarity and air in sound</div>
+          </div>
+          <div className="buttonSection">
+          <label>
+            High Frequency: <br />
+            <input
+              type="range"
+              min="1000"
+              max="20000"
+              step="1"
+              defaultValue="0"
+              onChange={(e) =>
+                adjustEQ(
+                  eq.current?.low.value || 0,
+                  eq.current?.mid.value || 0,
+                  eq.current?.high.value || 0,
+                  lowFrequency,
+                  parseFloat(e.target.value),
+                )
+              }
+            />
+          </label>
+        </div>
         </div>
       </div>
     </div>

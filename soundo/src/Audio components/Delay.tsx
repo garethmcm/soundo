@@ -1,13 +1,13 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, FeedbackDelay } from "tone";
+import { Sampler, FeedbackDelay, Gain } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
 import bass from "/assets/AUDIO SAMPLES/BASS.mp3";
 import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
-import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
@@ -31,6 +31,9 @@ const Delay: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const delay = useRef<FeedbackDelay | null>(null);
+  const [delayTime, setDelayTime] = useState(0.5);
+  const [feedback, setFeedback] = useState(0.5);
+  const [wet, setWet] = useState(0.5);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -45,13 +48,12 @@ const Delay: React.FC = () => {
     );
 
     delay.current = new FeedbackDelay({
-      delayTime: 0.5, // in seconds
-      feedback: 0.5, // range from 0 to 1
+      delayTime: delayTime,
+      feedback: feedback,
     });
 
     if (sampler.current && delay.current) {
       sampler.current.connect(delay.current);
-      delay.current.toDestination();
     }
 
     return () => {
@@ -62,7 +64,7 @@ const Delay: React.FC = () => {
         delay.current.dispose();
       }
     };
-  }, []);
+  }, [delayTime, feedback]);
 
   const handlePlay = (note: string) => {
     if (isLoaded && sampler.current) {
@@ -76,18 +78,24 @@ const Delay: React.FC = () => {
     }
   };
 
-  const adjustDelay = (delayTime: number, feedback: number) => {
+  const adjustDelay = (newDelayTime: number, newFeedback: number) => {
     if (delay.current) {
-      delayTime = delayTime;
-      feedback = feedback;
+      delay.current.delayTime = setDelayTime;
+      delay.current.feedback = setFeedback;
+      setDelayTime(newDelayTime);
+      setFeedback(newFeedback);
     }
+  };
+
+  const adjustWet = (newWet: number) => {
+    setWet(newWet);
   };
 
   return (
     <div>
       <h1>Delay</h1>
       <div className="audioComponentDisplay">
-        <div className="playerButtonBox">
+      <div className="playerButtonBox">
           <div>
             {delayPlaylist.map((item) => (
               <div className="playerButtonBox" key={item.noteAllocation}>
@@ -114,13 +122,8 @@ const Delay: React.FC = () => {
               min="0"
               max="1"
               step="0.01"
-              defaultValue="0.5"
-              onChange={(e) =>
-                adjustDelay(
-                  parseFloat(e.target.value),
-                  feedback
-                )
-              }
+              defaultValue={delayTime.toString()}
+              onChange={(e) => adjustDelay(parseFloat(e.target.value), feedback)}
             />
           </label>
           <label>
@@ -130,15 +133,21 @@ const Delay: React.FC = () => {
               min="0"
               max="1"
               step="0.01"
-              defaultValue="0.5"
-              onChange={(e) =>
-                adjustDelay(
-                  delayTime,
-                  parseFloat(e.target.value)
-                )
-              }
+              defaultValue={feedback.toString()}
+              onChange={(e) => adjustDelay(delayTime, parseFloat(e.target.value))}
             />
           </label>
+          {/* <label>
+            Wet/Dry Mix:
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              defaultValue={wet.toString()}
+              onChange={(e) => adjustWet(parseFloat(e.target.value))}
+            />
+          </label> */}
         </div>
       </div>
     </div>

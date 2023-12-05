@@ -7,7 +7,7 @@ import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
 import bass from "/assets/AUDIO SAMPLES/BASS.mp3";
 import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
-import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
+import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3"; 
 
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
@@ -38,7 +38,6 @@ const Compression: React.FC = () => {
   const compressor = useRef<Compressor | null>(null);
   const [attack, setAttack] = useState(0.1);
   const [release, setRelease] = useState(0.5);
-  const [isHovering, setIsHovering] = useState(false);
 
   // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
@@ -103,14 +102,6 @@ const Compression: React.FC = () => {
       compressor.current.attack.value = attack;
       compressor.current.release.value = release;
     }
-  };
-
-  const handleMouseOn = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseOff = () => {
-    setIsHovering(false);
   };
 
   return (

@@ -116,7 +116,7 @@ const ReverbComponent: React.FC = () => {
   return (
     <div>
       <h1>Convolution reverb</h1>
-      <p className="blurb">This is another spacial effect made up of lots of delays chained together that give the impression of the sound in a room.</p>
+      <p className="blurb">This is a reverb which is made out of impulse response samples taken from real acoustic environments. Please pick an environment from the dropdown to hear what the sample sounds like in different places.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>

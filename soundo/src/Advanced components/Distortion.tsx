@@ -31,7 +31,6 @@ const DistortionComponent: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const distort = useRef<Distortion | null>(null);
-  const [distortion, setDistortion] = useState(0.5);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -43,8 +42,9 @@ const DistortionComponent: React.FC = () => {
           setLoaded(true);
         },
       }
-    );
+    ).toDestination();
 
+    sampler.current.volume.value = 0.5;
     distort.current = new Distortion({
       distortion: 0.5,
     }).toDestination();
@@ -76,16 +76,18 @@ const DistortionComponent: React.FC = () => {
   };
 
   const adjustDistortion = (
-    distortion: number,
+    level: number,
   ) => {
-    if (distort.current) {
-      distort.current.distortion = distortion;
+    if (distort.current && sampler.current) {
+      distort.current.distortion = level;
+      sampler.current.volume.value = 1 - level;
     }
   };
 
   return (
     <div>
       <h1>Distortion</h1>
+      <p className="blurb">This is when the source is overloaded which adds additional harmonics to the sound.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -107,13 +109,14 @@ const DistortionComponent: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+        <div className="buttonSection">
           <label>
-            Distortion:
+            Mix: <br />
             <input
               type="range"
               min="0"
               max="1"
-              step="0.1"
+              step="0.01"
               defaultValue="0.5"
               onChange={(e) =>
                 adjustDistortion(
@@ -122,6 +125,8 @@ const DistortionComponent: React.FC = () => {
               }
             />
           </label>
+          <div className="explainer">Determines amount of distortion sent to sound</div>
+          </div>
         </div>
       </div>
     </div>

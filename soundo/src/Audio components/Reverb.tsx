@@ -91,6 +91,7 @@ const ReverbEffect: React.FC = () => {
   return (
     <div>
       <h1>Reverb</h1>
+      <p className="blurb">This is another spacial effect made up of lots of delays chained together that give the impression of the sound in a room.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -112,8 +113,9 @@ const ReverbEffect: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+        <div className="buttonSection">
           <label>
-            Decay (s):
+            Amount (s): <br />
             <input
               type="range"
               min="0"
@@ -128,8 +130,11 @@ const ReverbEffect: React.FC = () => {
               }
             />
           </label>
+          <div className="explainer">How big the space is supposed to sound</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Wet:
+            Mix: <br />
             <input
               type="range"
               min="0"
@@ -144,6 +149,8 @@ const ReverbEffect: React.FC = () => {
               }
             />
           </label>
+          <div className="explainer">The ratio of affected to unaffected sound</div>
+          </div>
         </div>
       </div>
     </div>

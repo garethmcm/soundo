@@ -63,7 +63,7 @@ const ReverbComponent: React.FC = () => {
       }
     );
 
-    convolver.current = new Convolver().toDestination();
+    convolver.current = new Convolver();
 
     if (sampler.current && convolver.current) {
       sampler.current.connect(convolver.current);
@@ -108,6 +108,7 @@ const ReverbComponent: React.FC = () => {
   return (
     <div>
       <h1>Convolution reverb</h1>
+      <p className="blurb">This is another spacial effect made up of lots of delays chained together that give the impression of the sound in a room.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -129,8 +130,9 @@ const ReverbComponent: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+        <div className="buttonSection">
           <label>
-            Reverb Preset:
+            Reverb Preset: <br />
             <select
               onChange={(e) =>
                 adjustReverb(parseInt(e.target.value, 10))
@@ -144,8 +146,11 @@ const ReverbComponent: React.FC = () => {
               ))}
             </select>
           </label>
+          <div className="explainer">How big the space is supposed to sound</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Mix:
+            Mix: <br />
             <input
               type="range"
               min="0"
@@ -156,6 +161,8 @@ const ReverbComponent: React.FC = () => {
             />
             {mix}
           </label>
+          <div className="explainer">The ratio of affected to unaffected sound</div>
+          </div>
         </div>
       </div>
     </div>

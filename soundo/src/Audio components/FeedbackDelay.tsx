@@ -131,14 +131,14 @@ const Delay: React.FC = () => {
             <input
               type="range"
               min="0"
-              max="500"
+              max="300"
               step="0.1"
               defaultValue="50"
               onChange={(e) =>
                 adjustDelay(
                   parseFloat(e.target.value),
-                  delay.current?.feedback.value || 4,
-                  delay.current?.wet.value || 4,
+                  delay.current?.feedback.value || 0.5,
+                  delay.current?.wet.value || 0.5,
                 )
               }
             /> 

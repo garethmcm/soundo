@@ -8,7 +8,7 @@ import AudioLanding from "./AudioLanding";
 import Compression from "./Compression";
 import Equalisation from "./Equalisation";
 import Delay from "./FeedbackDelay";
-import Reverb from "./Reverb";
+import Reverb from "./AltVerb";
 import ConvoReverb from "./ConvoReverb";
 
 function AudioBasics() {

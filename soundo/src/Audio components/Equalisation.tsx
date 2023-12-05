@@ -11,6 +11,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Frequency } from "tone/build/esm/core/type/Units";
 
 interface EqItems {
   noteAllocation: string;
@@ -33,8 +34,8 @@ const Equalizer: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const eq = useRef<EQ3 | null>(null);
-  const [lowFrequency, setLowFrequency] = useState(0);
-  const [highFrequency, setHighFrequency] = useState(0);
+  // const [lowFrequency, setLowFrequency] = useState(0);
+  // const [highFrequency, setHighFrequency] = useState(0);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -82,7 +83,7 @@ const Equalizer: React.FC = () => {
     }
   };
 
-  const adjustEQ = (low: number, mid: number, high: number, lowFreq: number, highFreq: number) => {
+  const adjustEQ = (low: number, mid: number, high: number, lowFreq: Frequency, highFreq: Frequency) => {
     if (eq.current) {
       eq.current.low.value = low;
       eq.current.mid.value = mid;
@@ -133,8 +134,8 @@ const Equalizer: React.FC = () => {
                   parseFloat(e.target.value),
                   eq.current?.mid.value || 0,
                   eq.current?.high.value || 0,
-                  lowFrequency,
-                  highFrequency,
+                  eq.current?.lowFrequency.value || 400,
+                  eq.current?.highFrequency.value || 2500
                 )
               }
             />
@@ -147,7 +148,7 @@ const Equalizer: React.FC = () => {
             <input
               type="range"
               min="60"
-              max="800"
+              max="1000"
               step="1"
               defaultValue="0"
               onChange={(e) =>
@@ -156,11 +157,12 @@ const Equalizer: React.FC = () => {
                   eq.current?.mid.value || 0,
                   eq.current?.high.value || 0,
                   parseFloat(e.target.value),
-                  highFrequency,
+                  eq.current?.highFrequency.value || 2500
                 )
               }
             />
           </label>
+          <div className="explainer">Higher will sound more "chesty", lower for deeper sound</div>
         </div>
           <div className="buttonSection">
           <label>
@@ -176,8 +178,8 @@ const Equalizer: React.FC = () => {
                   eq.current?.low.value || 0,
                   parseFloat(e.target.value),
                   eq.current?.high.value || 0,
-                  lowFrequency,
-                  highFrequency,
+                  eq.current?.lowFrequency.value || 400,
+                  eq.current?.highFrequency.value || 2500
                 )
               }
             />
@@ -198,8 +200,8 @@ const Equalizer: React.FC = () => {
                   eq.current?.low.value || 0,
                   eq.current?.mid.value || 0,
                   parseFloat(e.target.value),
-                  lowFrequency,
-                  highFrequency,
+                  eq.current?.lowFrequency.value || 400,
+                  eq.current?.highFrequency.value || 2500
                 )
               }
             />
@@ -220,12 +222,13 @@ const Equalizer: React.FC = () => {
                   eq.current?.low.value || 0,
                   eq.current?.mid.value || 0,
                   eq.current?.high.value || 0,
-                  lowFrequency,
-                  parseFloat(e.target.value),
+                  eq.current?.lowFrequency.value || 400,
+                  parseFloat(e.target.value)
                 )
               }
             />
           </label>
+          <div className="explainer">Higher will sound more airy, lower for definition</div>
         </div>
         </div>
       </div>

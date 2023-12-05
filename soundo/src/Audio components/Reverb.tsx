@@ -1,6 +1,6 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, Reverb } from "tone";
+import { Sampler, JCReverb } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -11,7 +11,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
-import { Seconds } from "tone/build/esm/core/type/Units";
+import { NormalRange } from "tone/build/esm/core/type/Units";
 
 interface ReverbItems {
   noteAllocation: string;
@@ -31,9 +31,9 @@ const reverbPlaylist: ReverbItems[] = [
 const ReverbEffect: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const reverb = useRef<Reverb | null>(null);
-  const [decay, setDecay] = useState(0);
-  const [preDelay, setPreDelay] = useState(0);
+  const reverb = useRef<JCReverb | null>(null);
+//   const [decay, setDecay] = useState(0);
+//   const [preDelay, setPreDelay] = useState(0);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -47,9 +47,8 @@ const ReverbEffect: React.FC = () => {
       }
     );
 
-    reverb.current = new Reverb({
-      decay: 3,
-      preDelay: 0,
+    reverb.current = new JCReverb({
+      roomSize: 0.5,
       wet: 0.5
     }).toDestination();
 
@@ -80,13 +79,11 @@ const ReverbEffect: React.FC = () => {
   };
 
   const adjustReverb = (
-    decay: Seconds,
-    preDelay: Seconds,
+    roomSize: NormalRange,
     wet: number
   ) => {
     if (reverb.current) {
-      reverb.current.decay.value = decay;
-      reverb.current.preDelay.value = preDelay;
+      reverb.current.roomSize.value = roomSize;
       reverb.current.wet.value = wet;
     }
   };
@@ -120,29 +117,11 @@ const ReverbEffect: React.FC = () => {
             <input
               type="range"
               min="0"
-              max="50"
-              step="0.1"
-              defaultValue="0.3"
+              max="0.7"
+              step="0.01"
+              defaultValue="0.5"
               onChange={(e) =>
                 adjustReverb(
-                  parseFloat(e.target.value),
-                  reverb.current?.preDelay.value || 0,
-                  reverb.current?.wet.value || 0.5,
-                )
-              }
-            />
-          </label>
-          <label>
-            Predelay (s):
-            <input
-              type="range"
-              min="0"
-              max="50"
-              step="0.1"
-              defaultValue="3"
-              onChange={(e) =>
-                adjustReverb(
-                  reverb.current?.decay.value || 3,
                   parseFloat(e.target.value),
                   reverb.current?.wet.value || 0.5,
                 )
@@ -154,13 +133,12 @@ const ReverbEffect: React.FC = () => {
             <input
               type="range"
               min="0"
-              max="1"
+              max="0.7"
               step="0.01"
-              defaultValue="0.7"
+              defaultValue="0.5"
               onChange={(e) =>
                 adjustReverb(
-                  reverb.current?.decay.value || 3,
-                  reverb.current?.preDelay.value || 0,
+                  reverb.current?.roomSize.value || 0.5,
                   parseFloat(e.target.value)
                 )
               }

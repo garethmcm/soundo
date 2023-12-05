@@ -143,7 +143,7 @@ const Delay: React.FC = () => {
               }
             /> 
             </label>
-              <div className="explainer">This sets how high the level of audio has to be before the compressor kicks in</div>
+              <div className="explainer">How much space there is between delayed sounds</div>
           </div>
           <div className="buttonSection">
             <label>
@@ -163,7 +163,7 @@ const Delay: React.FC = () => {
               }
             /> 
             </label>
-              <div className="explainer">This sets how high the level of audio has to be before the compressor kicks in</div>
+              <div className="explainer">The number of times the sound is repeated</div>
           </div>
           <div className="buttonSection">
             <label>

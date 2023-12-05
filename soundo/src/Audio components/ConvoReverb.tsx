@@ -1,6 +1,6 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, Convolver } from "tone";
+import { Sampler, Convolver, Gain } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -49,7 +49,8 @@ const ReverbComponent: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const convolver = useRef<Convolver | null>(null);
-  const [mix, setMix] = useState(0.5);
+  const reverbLevel =useRef<Gain | null>(null);
+  const samplerLevel =useRef<Gain | null>(null);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -64,9 +65,13 @@ const ReverbComponent: React.FC = () => {
     );
 
     convolver.current = new Convolver();
+    reverbLevel.current = new Gain(0.5);
+    samplerLevel.current = new Gain(0.5);
 
     if (sampler.current && convolver.current) {
       sampler.current.connect(convolver.current);
+      convolver.current.connect(reverbLevel.current).toDestination();
+      sampler.current.connect(samplerLevel.current).toDestination();
     }
 
     return () => {
@@ -78,12 +83,6 @@ const ReverbComponent: React.FC = () => {
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (convolver.current) {
-      convolver.current.mix = mix;
-    }
-  }, [mix]);
 
   const handlePlay = (note: string) => {
     if (isLoaded && sampler.current) {
@@ -97,13 +96,21 @@ const ReverbComponent: React.FC = () => {
     }
   };
 
-  const adjustReverb = (presetId: number) => {
+  const selectReverb = (presetId: number) => {
     const selectedReverb = reverbPresets.find((preset) => preset.id === presetId);
 
     if (convolver.current && selectedReverb) {
       convolver.current.load(selectedReverb.fileLocation);
     }
   };
+
+  // const adjustReverb = (
+  //   sliderValue: number
+  // ) => {
+  //   if(convolver.current && sampler.current) {
+  //     convolver.current.output. = sliderValue;
+  //   }
+  // }
 
   return (
     <div>
@@ -135,7 +142,7 @@ const ReverbComponent: React.FC = () => {
             Reverb Preset: <br />
             <select
               onChange={(e) =>
-                adjustReverb(parseInt(e.target.value, 10))
+                selectReverb(parseInt(e.target.value, 10))
               }
             >
               <option value="0">None</option>
@@ -146,20 +153,19 @@ const ReverbComponent: React.FC = () => {
               ))}
             </select>
           </label>
-          <div className="explainer">How big the space is supposed to sound</div>
+          <div className="explainer">Select from the reverb samples</div>
           </div>
           <div className="buttonSection">
           <label>
             Mix: <br />
             <input
               type="range"
-              min="0"
-              max="1"
+              min="-0.5"
+              max="0.5"
               step="0.01"
-              defaultValue="0.5"
-              onChange={(e) => setMix(parseFloat(e.target.value))}
+              defaultValue="0"
+              onChange={(e) => parseFloat(e.target.value)}
             />
-            {mix}
           </label>
           <div className="explainer">The ratio of affected to unaffected sound</div>
           </div>

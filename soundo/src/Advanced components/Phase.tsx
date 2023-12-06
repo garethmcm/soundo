@@ -1,6 +1,6 @@
 import "../Audio components/AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, Compressor } from "tone";
+import { Sampler, Phaser } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -11,14 +11,15 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Frequency } from "tone/build/esm/core/type/Units";
 
-interface CompItems {
+interface PhaserItems {
   noteAllocation: string;
   fileLocation: string;
   sampleTitle: string;
 }
 
-const compPlaylist: CompItems[] = [
+const phaserPlaylist: PhaserItems[] = [
   { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
   { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
   { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },
@@ -27,42 +28,40 @@ const compPlaylist: CompItems[] = [
   { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
-const Phase: React.FC = () => {
+const PhaserComponent: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const compressor = useRef<Compressor | null>(null);
-  const [attack, setAttack] = useState(0.1);
-  const [release, setRelease] = useState(0.5);
+  const phaser = useRef<Phaser | null>(null);
 
   useEffect(() => {
     sampler.current = new Sampler(
       Object.fromEntries(
-        compPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
+        phaserPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
       ),
       {
         onload: () => {
           setLoaded(true);
         },
       }
-    );
+    ).toDestination();
 
-    compressor.current = new Compressor({
-      threshold: -20,
-      ratio: 4,
-      attack: 0.1,
-      release: 0.5,
+    sampler.current.volume.value = 0.5;
+    phaser.current = new Phaser({
+      frequency: 15,
+      octaves: 5,
+      baseFrequency: 1000
     }).toDestination();
 
-    if (sampler.current && compressor.current) {
-      sampler.current.connect(compressor.current);
+    if (sampler.current && phaser.current) {
+      sampler.current.connect(phaser.current);
     }
 
     return () => {
       if (sampler.current) {
         sampler.current.dispose();
       }
-      if (compressor.current) {
-        compressor.current.dispose();
+      if (phaser.current) {
+        phaser.current.dispose();
       }
     };
   }, []);
@@ -79,27 +78,27 @@ const Phase: React.FC = () => {
     }
   };
 
-  const adjustCompressor = (
-    threshold: number,
-    ratio: number,
-    attack: number,
-    release: number
+  const adjustPhaser = (
+    frequency: Frequency,
+    octaves: number,
+    baseFrequency: Frequency
   ) => {
-    if (compressor.current) {
-      compressor.current.threshold.value = threshold;
-      compressor.current.ratio.value = ratio;
-      compressor.current.attack.value = attack;
-      compressor.current.release.value = release;
+    if(phaser.current) {
+      phaser.current.frequency.value = frequency;
+      phaser.current.octaves = octaves;
+      phaser.current.baseFrequency = baseFrequency;
     }
+
   };
 
   return (
     <div>
-      <h1>Compression</h1>
+      <h1>Phaser</h1>
+      <p className="blurb">This gives a repeat of the audio signal that plays after the original to give a spacial effect.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
-            {compPlaylist.map((item) => (
+            {phaserPlaylist.map((item) => (
               <div className="playerButtonBox" key={item.noteAllocation}>
                 <h2 className="sampleTitle">{item.sampleTitle}</h2>
                 <div
@@ -117,86 +116,70 @@ const Phase: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+          <div className="buttonSection">
           <label>
-            Threshold:
+            Frequency: <br />
             <input
               type="range"
-              min="-80"
-              max="0"
-              step="1"
-              defaultValue="-20"
+              min="0"
+              max="30"
+              step="0.1"
+              defaultValue="15"
               onChange={(e) =>
-                adjustCompressor(
+                adjustPhaser(
                   parseFloat(e.target.value),
-                  compressor.current?.ratio.value || 4,
-                  attack,
-                  release
+                  phaser.current?.octaves || 0,
+                  phaser.current?.baseFrequency || 1000
                 )
               }
             />
           </label>
+          <div className="explainer">Determines amount of distortion sent to sound</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Ratio:
+            Octaves: <br />
             <input
               type="range"
-              min="1"
-              max="20"
+              min="0"
+              max="10"
               step="1"
-              defaultValue="4"
+              defaultValue="5"
               onChange={(e) =>
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
+                adjustPhaser(
+                  phaser.current?.frequency.value || 15,
                   parseFloat(e.target.value),
-                  attack,
-                  release
+                  phaser.current?.baseFrequency || 1000
                 )
               }
             />
           </label>
+          <div className="explainer">Determines amount of distortion sent to sound</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Attack:
+            Base frequency: <br />
             <input
               type="range"
               min="0"
-              max="1"
-              step="0.01"
-              defaultValue="0.1"
-              onChange={(e) => {
-                setAttack(parseFloat(e.target.value));
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
-                  compressor.current?.ratio.value || 4,
-                  parseFloat(e.target.value),
-                  release
-                );
-              }}
-            />
-            {attack}
-          </label>
-          <label>
-            Release:
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              defaultValue="0.5"
-              onChange={(e) => {
-                setRelease(parseFloat(e.target.value));
-                adjustCompressor(
-                  compressor.current?.threshold.value || -20,
-                  compressor.current?.ratio.value || 4,
-                  attack,
+              max="15000"
+              step="0.1"
+              defaultValue="1000"
+              onChange={(e) =>
+                adjustPhaser(
+                  phaser.current?.frequency.value || 15,
+                  phaser.current?.octaves || 0,
                   parseFloat(e.target.value)
-                );
-              }}
+                )
+              }
             />
-            {release}
           </label>
+          <div className="explainer">Determines amount of distortion sent to sound</div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Phase;
+export default PhaserComponent;

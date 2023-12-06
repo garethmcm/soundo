@@ -12,13 +12,13 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
 
-interface CompItems {
+interface DistItems {
   noteAllocation: string;
   fileLocation: string;
   sampleTitle: string;
 }
 
-const distortPlaylist: CompItems[] = [
+const distortPlaylist: DistItems[] = [
   { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
   { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
   { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },

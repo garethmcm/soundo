@@ -125,8 +125,8 @@ const Equalizer: React.FC = () => {
             Low: <br />
             <input
               type="range"
-              min="-15"
-              max="15"
+              min="-10"
+              max="10"
               step="0.3"
               defaultValue="0"
               onChange={(e) =>
@@ -169,8 +169,8 @@ const Equalizer: React.FC = () => {
             Mid: <br />
             <input
               type="range"
-              min="-15"
-              max="15"
+              min="-10"
+              max="10"
               step="0.3"
               defaultValue="0"
               onChange={(e) =>
@@ -191,8 +191,8 @@ const Equalizer: React.FC = () => {
             High: <br />
             <input
               type="range"
-              min="-15"
-              max="15"
+              min="-10"
+              max="10"
               step="0.3"
               defaultValue="0"
               onChange={(e) =>

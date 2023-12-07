@@ -1,6 +1,6 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, FeedbackDelay } from "tone";
+import { Sampler, FeedbackDelay, PingPongDelay } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -12,7 +12,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
-import { Time } from "tone/build/esm/core/type/Units";
+import { Seconds, Time } from "tone/build/esm/core/type/Units";
 
 interface delayItems {
   noteAllocation: string;
@@ -36,7 +36,7 @@ const delayPlaylist: delayItems[] = [
 const Delay: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const delay = useRef<FeedbackDelay | null>(null);
+  const delay = useRef<PingPongDelay | null>(null);
 
   // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
@@ -52,7 +52,7 @@ const Delay: React.FC = () => {
       }
     );
 
-    delay.current = new FeedbackDelay({
+    delay.current = new PingPongDelay({
       delayTime: 1,
       feedback: 0.5,
       wet: 0.5
@@ -91,12 +91,12 @@ const Delay: React.FC = () => {
   const adjustDelay = (
     delayTime: Time,
     feedback: number,
-    wet: number
+    mix: number
   ) => {
     if (delay.current) {
       delay.current.delayTime.value = delayTime;
       delay.current.feedback.value = feedback;
-      delay.current.wet.value = wet;
+      delay.current.wet.value = mix;
     }
   };
 
@@ -130,10 +130,10 @@ const Delay: React.FC = () => {
             Time: <br />
             <input
               type="range"
-              min="0"
-              max="300"
-              step="0.1"
-              defaultValue="50"
+              min="1"
+              max="3"
+              step="0.0001"
+              defaultValue="1"
               onChange={(e) =>
                 adjustDelay(
                   parseFloat(e.target.value),
@@ -167,12 +167,12 @@ const Delay: React.FC = () => {
           </div>
           <div className="buttonSection">
             <label>
-            Wet / Dry: <br />
+              Mix: <br />
             <input
               type="range"
               min="0"
               max="1"
-              step="0.01"
+              step="0.1"
               defaultValue="0.5"
               onChange={(e) =>
                 adjustDelay(

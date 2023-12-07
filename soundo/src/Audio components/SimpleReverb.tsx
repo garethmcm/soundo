@@ -32,8 +32,6 @@ const ReverbEffect: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const reverb = useRef<JCReverb | null>(null);
-//   const [decay, setDecay] = useState(0);
-//   const [preDelay, setPreDelay] = useState(0);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -48,8 +46,8 @@ const ReverbEffect: React.FC = () => {
     );
 
     reverb.current = new JCReverb({
-      roomSize: 0.5,
-      wet: 0.5
+      roomSize: 0.35,
+      wet: 0.35
     }).toDestination();
 
     if (sampler.current && reverb.current) {
@@ -121,11 +119,11 @@ const ReverbEffect: React.FC = () => {
               min="0"
               max="0.7"
               step="0.01"
-              defaultValue="0.5"
+              defaultValue="0.35"
               onChange={(e) =>
                 adjustReverb(
                   parseFloat(e.target.value),
-                  reverb.current?.wet.value || 0.5,
+                  reverb.current?.wet.value || 0.35,
                 )
               }
             />
@@ -140,7 +138,7 @@ const ReverbEffect: React.FC = () => {
               min="0"
               max="0.7"
               step="0.01"
-              defaultValue="0.5"
+              defaultValue="0.35"
               onChange={(e) =>
                 adjustReverb(
                   reverb.current?.roomSize.value || 0.5,

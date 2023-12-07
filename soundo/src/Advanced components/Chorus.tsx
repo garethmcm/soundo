@@ -117,7 +117,7 @@ const ChorusEffect: React.FC = () => {
         <div className="paramDials">
           <div className="buttonSection">
           <label>
-            LFO:
+            LFO: <br />
             <input
               type="range"
               min="0"
@@ -133,10 +133,11 @@ const ChorusEffect: React.FC = () => {
               }
             />
           </label>
-        </div>
-        <div className="paramDials">
+          <div className="explainer">Frequency selector</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Delay time:
+            Delay time: <br />
             <input
               type="range"
               min="0"
@@ -152,10 +153,11 @@ const ChorusEffect: React.FC = () => {
               }
             />
           </label>
-        </div>
-        <div className="paramDials">
+          <div className="explainer">Time between original sound and effect</div>
+          </div>
+          <div className="buttonSection">
           <label>
-            Depth:
+            Depth: <br />
             <input
               type="range"
               min="0"
@@ -171,11 +173,13 @@ const ChorusEffect: React.FC = () => {
               }
             />
           </label>
-          <div className="explainer">Determines amount of distortion sent to sound</div>
+          <div className="explainer">How wobbly the effect was</div>
           </div>
-        </div>
-      </div>
-    </div>
+          </div>
+          </div>
+          </div>
+       
+
   );
 };
 

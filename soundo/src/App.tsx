@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Header from "./Components/Header";
 import TopNav from "./Components/TopNav";
@@ -31,6 +32,9 @@ function App() {
 
   return (
     <body>
+        <Helmet>
+        <title>Soundo - audio processing education</title>
+      </Helmet>
       <Header hideNav={hideNav} showNav={showNav} />
       {isNavVisible && <TopNav />}
       <Routes>

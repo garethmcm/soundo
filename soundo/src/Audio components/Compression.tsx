@@ -37,8 +37,6 @@ const Compression: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const compressor = useRef<Compressor | null>(null);
-  // const [attack, setAttack] = useState(0.1);
-  // const [release, setRelease] = useState(0.5);
 
   // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
 
@@ -182,7 +180,6 @@ const Compression: React.FC = () => {
               step="0.01"
               defaultValue="0.1"
               onChange={(e) => {
-                // setAttack(parseFloat(e.target.value));
                 adjustCompressor(
                   compressor.current?.threshold.value || -20,
                   compressor.current?.ratio.value || 4,
@@ -192,7 +189,6 @@ const Compression: React.FC = () => {
               }}
             />
           </label>
-          {/* {attack}  */}
           <div className="explainer">How quickly compressor acts after it hits threshold</div>
           </div>
           <div className="buttonSection">
@@ -205,7 +201,6 @@ const Compression: React.FC = () => {
               step="0.01"
               defaultValue="0.5"
               onChange={(e) => {
-                // setRelease(parseFloat(e.target.value));
                 adjustCompressor(
                   compressor.current?.threshold.value || -20,
                   compressor.current?.ratio.value || 4,
@@ -215,7 +210,6 @@ const Compression: React.FC = () => {
               }}
             />
           </label>
-          {/* {release} */}
               <div className="explainer">How long the compressor acts after it kicks in</div> 
           </div>
         </div>

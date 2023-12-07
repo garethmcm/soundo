@@ -15,6 +15,7 @@
 .playerButtonBox {
     display: flex;
     margin-right: 10px;
+    fill: #FDF0D5;
   }
 
 input {

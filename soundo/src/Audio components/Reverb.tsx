@@ -1,6 +1,6 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, JCReverb } from "tone";
+import { Sampler, Reverb } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -11,7 +11,7 @@ import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
-import { NormalRange } from "tone/build/esm/core/type/Units";
+import { Time } from "tone/build/esm/core/type/Units";
 
 interface ReverbItems {
   noteAllocation: string;
@@ -31,9 +31,7 @@ const reverbPlaylist: ReverbItems[] = [
 const ReverbEffect: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const reverb = useRef<JCReverb | null>(null);
-//   const [decay, setDecay] = useState(0);
-//   const [preDelay, setPreDelay] = useState(0);
+  const reverb = useRef<Reverb | null>(null);
 
   useEffect(() => {
     sampler.current = new Sampler(
@@ -47,9 +45,10 @@ const ReverbEffect: React.FC = () => {
       }
     );
 
-    reverb.current = new JCReverb({
-      roomSize: 0.5,
-      wet: 0.5
+    reverb.current = new Reverb({
+        decay: 1,
+        preDelay: 0.25,
+        wet: 0.5
     }).toDestination();
 
     if (sampler.current && reverb.current) {
@@ -79,11 +78,13 @@ const ReverbEffect: React.FC = () => {
   };
 
   const adjustReverb = (
-    roomSize: NormalRange,
+    decay: Time,
+    preDelay: Time,
     wet: number
   ) => {
     if (reverb.current) {
-      reverb.current.roomSize.value = roomSize;
+      reverb.current.decay = decay;
+      reverb.current.preDelay = preDelay;
       reverb.current.wet.value = wet;
     }
   };
@@ -91,7 +92,7 @@ const ReverbEffect: React.FC = () => {
   return (
     <div>
       <h1>Reverb</h1>
-      <p className="blurb">This is another spacial effect made up of lots of delays chained together that give the impression of the sound in a room.</p>
+      <p className="blurb">This is a more complex reverb with a pre delay setting.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
@@ -115,17 +116,18 @@ const ReverbEffect: React.FC = () => {
         <div className="paramDials">
         <div className="buttonSection">
           <label>
-            Amount (s): <br />
+            Decay (s): <br />
             <input
               type="range"
               min="0"
-              max="0.7"
+              max="5"
               step="0.01"
-              defaultValue="0.5"
+              defaultValue="2.5"
               onChange={(e) =>
                 adjustReverb(
-                  parseFloat(e.target.value),
-                  reverb.current?.wet.value || 0.5,
+                    parseFloat(e.target.value),
+                    reverb.current?.preDelay || 1,
+                    reverb.current?.wet.value || 0.5
                 )
               }
             />
@@ -134,17 +136,38 @@ const ReverbEffect: React.FC = () => {
           </div>
           <div className="buttonSection">
           <label>
+            Pre delay (s): <br />
+            <input
+              type="range"
+              min="0"
+              max="0.5"
+              step="0.01"
+              defaultValue="0.25"
+              onChange={(e) =>
+                adjustReverb(
+                    reverb.current?.decay || 1,
+                    parseFloat(e.target.value),
+                    reverb.current?.wet.value || 0.5
+                )
+              }
+            />
+          </label>
+          <div className="explainer">Gives some reverb effect before source (Try on vocals!)</div>
+          </div>
+          <div className="buttonSection">
+          <label>
             Mix: <br />
             <input
               type="range"
               min="0"
-              max="0.7"
+              max="1"
               step="0.01"
               defaultValue="0.5"
               onChange={(e) =>
                 adjustReverb(
-                  reverb.current?.roomSize.value || 0.5,
-                  parseFloat(e.target.value)
+                    reverb.current?.decay || 1,
+                    reverb.current?.preDelay || 1,
+                    parseFloat(e.target.value),
                 )
               }
             />

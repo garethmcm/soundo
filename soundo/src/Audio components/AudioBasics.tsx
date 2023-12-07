@@ -8,6 +8,7 @@ import AudioLanding from "./AudioLanding";
 import Compression from "./Compression";
 import Equalisation from "./Equalisation";
 import Delay from "./FeedbackDelay";
+import SimpleReverb from "./SimpleReverb";
 import Reverb from "./Reverb";
 import ConvoReverb from "./ConvoReverb";
 
@@ -23,6 +24,7 @@ function AudioBasics() {
           <Route path="/Compression" element={<Compression />} />
           <Route path="/Equalisation" element={<Equalisation />} />
           <Route path="/Delay" element={<Delay />} />
+          <Route path="/SimpleReverb" element={<SimpleReverb />} />
           <Route path="/Reverb" element={<Reverb />} />
           <Route path="/ConvoReverb" element={<ConvoReverb />} />
         </Routes>

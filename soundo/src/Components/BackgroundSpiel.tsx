@@ -1,83 +1,114 @@
 import "../App.css";
-import React, { useState, useEffect } from 'react';
-import * as Tone from 'tone';
+import React, { useState, useEffect, useRef } from 'react';
+import { FatOscillator } from 'tone';
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Frequency } from "tone/build/esm/core/type/Units";
 
-// type interface declaration - required in typescript
+const BackgroundSpiel: React.FC = () => {
+  const fatty = useRef<FatOscillator | null>(null);
+  const [sliderValue, setSliderValue] = useState<number>(20);
 
-interface OscillatorProps {
-  type?: OscillatorType;
-}
-
-// state declarations
-
-const BackgroundSpiel: React.FC<OscillatorProps> = ({ type = 'sine' }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [frequency, setFrequency] = useState(1000);
-
-  // declaration of new oscillator to audio source
   useEffect(() => {
-    const synth = new Tone.Oscillator({
-      type,
-      frequency,
-      volume: -5,
-    }).toDestination();
+    fatty.current = new FatOscillator("A4", "sine").toDestination();
+  });
 
-    // allows change of frequency, indicated by slider
-    const handleFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newFrequency = parseInt(e.target.value, 10);
-      setFrequency(newFrequency);
-      synth.frequency.value = newFrequency;
-    };
+const handlePlay = (note: string) => {
+  if (fatty.current) {
+    fatty.current.start().frequency.value = note;
+  }
+};
 
-    // toggle to start / stop audio
-    const handleTogglePlay = () => {
-      setIsPlaying(!isPlaying);
+  const handleStop = () => {
+    if (fatty.current) {
+      fatty.current.stop();
+    }
+  };
+  const adjustPitch = (frequency: Frequency) => {
+    if (fatty.current) {
+      fatty.current.frequency.value = frequency;
+    }
+  };
 
-      if (!isPlaying) {
-        synth.start();
-      } else {
-        synth.stop();
-      }
-    };
-
-    const handleToggleStop = () => {
-      setIsPlaying(false);
-      synth.stop();
-    };
-
-    // Cleanup function to stop the synth when the component is unmounted
-    return () => {
-      synth.dispose();
-    };
-
-    // Empty dependency array means this effect will only run once after the initial render
-  }, [type, frequency, isPlaying]);
 
   return (
     <section>
       <h1>The background on sound</h1>
       <p>
-        Sound is how the brain interprets vibrations that propagate as acoustic waves. It is measured in frequency represented by Hertz. Human hearing goes roughly from 20Hz to 20,000kHz, although the upper end of this diminishes as we get older.
+        Sound is how the brain interprets vibrations that propagate as acoustic waves. It is measured in frequency represented by Hertz. Human hearing goes roughly from 20Hz to 16,000kHz.. To give an idea of what these frequencies sound like you can listen on the oscillators below which covers this spectrum of sound and beyond.
       </p>
-      <div>
-        <div onClick={() => handleTogglePlay()}>
+      <div className="oscars">
+      <div className="playerButtonBox">
+        <div onClick={() => handlePlay("440")}>
           <img src={playButton} alt="Play" className="buttons" />
         </div>
-        <div onClick={() => handleToggleStop()}>
+        <div onClick={() => handleStop()}>
           <img src={stopButton} alt="Stop" className="buttons" />
         </div>
+        <div className="paramDials">
+        <div>100-800Hz</div>
         <input
           type="range"
-          min="20"
-          max="20000"
-          step="1"
-          value={frequency}
-          onChange={handleFrequencyChange}
+          min="100"
+          max="800"
+          step="0.001"
+          defaultValue="440"
+          onChange={(e) =>
+            adjustPitch(
+              parseFloat(e.target.value)
+              )}
         />
-        <span>{frequency} Hz </span>
+      </div>
+      </div>
+      <div>
+      <div className="playerButtonBox">
+        <div onClick={() => handlePlay("2000")}>
+          <img src={playButton} alt="Play" className="buttons" />
+        </div>
+        <div onClick={() => handleStop()}>
+          <img src={stopButton} alt="Stop" className="buttons" />
+        </div>
+        <div className="paramDials">
+        <div>800-2000Hz</div>
+        <input
+          type="range"
+          min="800"
+          max="4000"
+          step="0.001"
+          defaultValue="2000"
+          onChange={(e) =>
+            adjustPitch(
+              parseFloat(e.target.value)
+              )}
+        />
+        </div>
+      </div>
+      </div>
+      <div>
+      <div className="playerButtonBox">
+        <div onClick={() => handlePlay("10000")}>
+          <img src={playButton} alt="Play" className="buttons" />
+        </div>
+        <div onClick={() => handleStop()}>
+          <img src={stopButton} alt="Stop" className="buttons" />
+        </div>
+        <div className="paramDials">
+        <div>4000-18000</div>
+        <input
+          type="range"
+          min="4000"
+          max="18000"
+          step="0.001"
+          defaultValue="10000"
+          onChange={(e) =>
+            adjustPitch(
+              parseFloat(e.target.value)
+              )}
+        />
+        </div>
+      </div>
+      </div>
       </div>
     </section>
   );

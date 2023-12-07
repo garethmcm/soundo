@@ -187,3 +187,7 @@ footer {
 section {
   width: 1160px;
 }
+
+.oscars {
+  display: flex;
+}

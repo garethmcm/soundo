@@ -1,6 +1,6 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
 import Header from "./Components/Header";
 import TopNav from "./Components/TopNav";
@@ -17,11 +17,7 @@ import OtherResourcesSpiel from "./Components/OtherResourcesSpiel";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
-// function to determine if navbar is shown or not - does not show on register & login screen but does otherwise
-
-type NavHider = {};
-
-function App(props: NavHider) {
+function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const hideNav = () => {
     setIsNavVisible(false);

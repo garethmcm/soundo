@@ -43,7 +43,7 @@ const ChorusEffect: React.FC = () => {
           setLoaded(true);
         },
       }
-    );
+    ).toDestination();
 
     chorus.current = new Chorus({
       frequency: 4,
@@ -88,6 +88,7 @@ const ChorusEffect: React.FC = () => {
         chorus.current.delayTime = delayTime;
         chorus.current.depth = depth;
     }
+
   };
 
   return (
@@ -114,6 +115,7 @@ const ChorusEffect: React.FC = () => {
           </div>
         </div>
         <div className="paramDials">
+          <div className="buttonSection">
           <label>
             LFO:
             <input
@@ -169,6 +171,8 @@ const ChorusEffect: React.FC = () => {
               }
             />
           </label>
+          <div className="explainer">Determines amount of distortion sent to sound</div>
+          </div>
         </div>
       </div>
     </div>

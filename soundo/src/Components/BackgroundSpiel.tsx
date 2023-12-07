@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FatOscillator } from 'tone';
 
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
@@ -8,7 +8,6 @@ import { Frequency } from "tone/build/esm/core/type/Units";
 
 const BackgroundSpiel: React.FC = () => {
   const fatty = useRef<FatOscillator | null>(null);
-  const [sliderValue, setSliderValue] = useState<number>(20);
 
   useEffect(() => {
     fatty.current = new FatOscillator("A4", "sine").toDestination();

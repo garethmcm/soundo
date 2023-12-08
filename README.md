@@ -16,3 +16,5 @@ soundo/soundo/assets: https://www.dropbox.com/scl/fi/oajdt14auxl7jjpm4ott1/asset
 soundo/soundo/node_modules: https://www.dropbox.com/scl/fi/vlofdacung0nvzb7pulp2/node_modules.zip?rlkey=ufzzj46vwg4gpi6g8gp2xiqdx&dl=0
 
 soundo/soundoback/env/lib: https://www.dropbox.com/scl/fi/tj7c3nvcevvoxdbngwzu0/lib.zip?rlkey=9cnhkq8lfuvtqih7xionc9l8f&dl=0
+
+The repository is kept at https://github.com/garethmcm/soundo and final build within project timeframe on https://soundo.vercel.app for reference

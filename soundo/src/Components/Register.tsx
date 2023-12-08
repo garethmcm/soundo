@@ -1,5 +1,4 @@
 import "../App.css";
-import "../Register.css";
 import { useState, ChangeEvent } from "react";
 
 interface FormData {
@@ -44,7 +43,7 @@ function Register() {
 };
 
   return (
-    <section className="registerSection">
+    <section className="loginSection">
       <h1>Register</h1>
       <label htmlFor="firstName">First name</label>
       <input

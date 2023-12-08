@@ -1,5 +1,4 @@
 import "../App.css";
-import "../Login.css";
 import { useState, ChangeEvent } from "react";
 
 interface FormData {

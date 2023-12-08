@@ -1,6 +1,6 @@
-import "./AudioComponents.css";
+import "../Audio components/AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, Convolver, Gain } from "tone";
+import { Sampler, Reverb } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -9,27 +9,17 @@ import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
 import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
-import batteryBenson from "/assets/reverbs/BatteryBenson.wav";
-import byronGlacier from "/assets/reverbs/ByronGlacier.wav";
-import naumburgBandshell from "/assets/reverbs/NaumburgBandshell.wav";
-import redBridge from "/assets/reverbs/RedBridge.wav";
-
 import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
 import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import { Time } from "tone/build/esm/core/type/Units";
 
-interface ConvoItems {
+interface ReverbItems {
   noteAllocation: string;
   fileLocation: string;
   sampleTitle: string;
 }
 
-interface ConvoReverbs {
-  id: number;
-  fileLocation: string;
-  presetTitle: string;
-}
-
-const convoPlaylist: ConvoItems[] = [
+const reverbPlaylist: ReverbItems[] = [
   { noteAllocation: "C4", fileLocation: sunshine, sampleTitle: "Sunshine" },
   { noteAllocation: "D4", fileLocation: guitar, sampleTitle: "Guitar" },
   { noteAllocation: "E4", fileLocation: bass, sampleTitle: "Bass" },
@@ -38,24 +28,15 @@ const convoPlaylist: ConvoItems[] = [
   { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
-const reverbPresets: ConvoReverbs[] = [
-  { id: 1, fileLocation: batteryBenson, presetTitle: "Battery Benson" },
-  { id: 2, fileLocation: byronGlacier, presetTitle: "Byron Glacier" },
-  { id: 3, fileLocation: naumburgBandshell, presetTitle: "Naumburg Bandshell" },
-  { id: 3, fileLocation: redBridge, presetTitle: "Red Bridge" },
-];
-
-const ReverbComponent: React.FC = () => {
+const PreReverb: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
-  const convolver = useRef<Convolver | null>(null);
-  const reverbLevel =useRef<Gain | null>(null);
-  const samplerLevel =useRef<Gain | null>(null);
+  const reverb = useRef<Reverb | null>(null);
 
   useEffect(() => {
     sampler.current = new Sampler(
       Object.fromEntries(
-        convoPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
+        reverbPlaylist.map((item) => [item.noteAllocation, item.fileLocation])
       ),
       {
         onload: () => {
@@ -64,22 +45,22 @@ const ReverbComponent: React.FC = () => {
       }
     );
 
-    convolver.current = new Convolver();
-    reverbLevel.current = new Gain(0.5).toDestination();
-    samplerLevel.current = new Gain(0.5).toDestination();
+    reverb.current = new Reverb({
+        decay: 1,
+        preDelay: 0.25,
+        wet: 0.5
+    }).toDestination();
 
-    if (sampler.current && convolver.current) {
-      sampler.current.connect(convolver.current);
-      convolver.current.connect(reverbLevel.current);
-      sampler.current.connect(samplerLevel.current);
+    if (sampler.current && reverb.current) {
+      sampler.current.connect(reverb.current);
     }
 
     return () => {
       if (sampler.current) {
         sampler.current.dispose();
       }
-      if (convolver.current) {
-        convolver.current.dispose();
+      if (reverb.current) {
+        reverb.current.dispose();
       }
     };
   }, []);
@@ -96,31 +77,26 @@ const ReverbComponent: React.FC = () => {
     }
   };
 
-  const selectReverb = (presetId: number) => {
-    const selectedReverb = reverbPresets.find((preset) => preset.id === presetId);
-
-    if (convolver.current && selectedReverb) {
-      convolver.current.load(selectedReverb.fileLocation);
+  const adjustReverb = (
+    decay: Time,
+    preDelay: Time,
+    wet: number
+  ) => {
+    if (reverb.current) {
+      reverb.current.decay = decay;
+      reverb.current.preDelay = preDelay;
+      reverb.current.wet.value = wet;
     }
   };
 
-  const adjustReverb = (
-    sliderValue: number
-  ) => {
-    if(reverbLevel.current && samplerLevel.current) {
-      reverbLevel.current.gain.value = sliderValue;
-      samplerLevel.current.gain.value = 1 - sliderValue;
-    }
-  }
-
   return (
     <div>
-      <h1>Convolution reverb</h1>
-      <p className="blurb">This is a reverb which is made out of impulse response samples taken from real acoustic environments. Please pick an environment from the dropdown to hear what the sample sounds like in different places.</p>
+      <h1>Reverb</h1>
+      <p className="blurb">This is a more complex reverb with a pre delay setting.</p>
       <div className="audioComponentDisplay">
         <div className="playerButtonBox">
           <div>
-            {convoPlaylist.map((item) => (
+            {reverbPlaylist.map((item) => (
               <div className="playerButtonBox" key={item.noteAllocation}>
                 <h2 className="sampleTitle">{item.sampleTitle}</h2>
                 <div
@@ -140,21 +116,43 @@ const ReverbComponent: React.FC = () => {
         <div className="paramDials">
         <div className="buttonSection">
           <label>
-            Reverb Preset: <br />
-            <select
+            Decay (s): <br />
+            <input
+              type="range"
+              min="0"
+              max="5"
+              step="0.01"
+              defaultValue="2.5"
               onChange={(e) =>
-                selectReverb(parseInt(e.target.value, 10))
+                adjustReverb(
+                    parseFloat(e.target.value),
+                    reverb.current?.preDelay || 1,
+                    reverb.current?.wet.value || 0.5
+                )
               }
-            >
-              <option value="0">None</option>
-              {reverbPresets.map((preset) => (
-                <option key={preset.id} value={preset.id}>
-                  {preset.presetTitle}
-                </option>
-              ))}
-            </select>
+            />
           </label>
-          <div className="explainer">Select from the reverb samples</div>
+          <div className="explainer">How big the space is supposed to sound</div>
+          </div>
+          <div className="buttonSection">
+          <label>
+            Pre delay (s): <br />
+            <input
+              type="range"
+              min="0"
+              max="0.5"
+              step="0.01"
+              defaultValue="0.25"
+              onChange={(e) =>
+                adjustReverb(
+                    reverb.current?.decay || 1,
+                    parseFloat(e.target.value),
+                    reverb.current?.wet.value || 0.5
+                )
+              }
+            />
+          </label>
+          <div className="explainer">Gives some reverb effect before source (Try on vocals!)</div>
           </div>
           <div className="buttonSection">
           <label>
@@ -165,7 +163,13 @@ const ReverbComponent: React.FC = () => {
               max="1"
               step="0.01"
               defaultValue="0.5"
-              onChange={(e) => adjustReverb(parseFloat(e.target.value))}
+              onChange={(e) =>
+                adjustReverb(
+                    reverb.current?.decay || 1,
+                    reverb.current?.preDelay || 1,
+                    parseFloat(e.target.value),
+                )
+              }
             />
           </label>
           <div className="explainer">The ratio of affected to unaffected sound</div>
@@ -176,4 +180,4 @@ const ReverbComponent: React.FC = () => {
   );
 };
 
-export default ReverbComponent;
+export default PreReverb;

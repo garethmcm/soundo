@@ -33,7 +33,7 @@ function App() {
   return (
     <body>
         <Helmet>
-        <title>Soundo - audio processing education</title>
+        <title>Welcome to Soundo!</title>
       </Helmet>
       <Header hideNav={hideNav} showNav={showNav} />
       {isNavVisible && <TopNav />}

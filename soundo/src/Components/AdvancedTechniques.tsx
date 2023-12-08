@@ -7,8 +7,8 @@ import AdvancedNav from "../Advanced components/AdvancedNav";
 import AdvancedLanding from "../Advanced components/AdvancedLanding";
 import Distortion from "../Advanced components/Distortion";
 import Chorus from "../Advanced components/Chorus";
-// import Envelope from "../Advanced components/Envelope";
-// import ParallelRouting from "../Advanced components/ParallelRouting";
+import PreReverb from "../Advanced components/PreReverb";
+import ConvoReverb from "../Advanced components/ConvoReverb";
 
 function AdvancedTechniques() {
   return (
@@ -21,8 +21,8 @@ function AdvancedTechniques() {
           <Route path="/" element={<AdvancedLanding />} />
           <Route path="/Distortion" element={<Distortion />} />
           <Route path="/Chorus" element={<Chorus />} />
-          {/* <Route path="/Envelope" element={<Envelope />} /> */}
-          {/* <Route path="/ParallelRouting" element={<ParallelRouting />} /> */}
+          <Route path="/PreReverb" element={<PreReverb />} />
+          <Route path="/ConvoReverb" element={<ConvoReverb />} />
         </Routes>
       </div>
     </div>

@@ -4,7 +4,7 @@ function Forum() {
   return (
     <section>
       <h1>Forum</h1>
-      <p>This will go here once I have Googled exactly what a forum does.</p>
+      <p>This is where the user forum will be located.</p>
     </section>
   );
 }

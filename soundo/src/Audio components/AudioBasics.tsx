@@ -10,6 +10,8 @@ import Equalisation from "./Equalisation";
 import Delay from "./FeedbackDelay";
 import SimpleReverb from "../Audio components/SimpleReverb";
 
+// url routing for basic tutorials, links with TechniquesNav also in this folder
+
 function AudioBasics() {
   return (
     <div className="audioBasics">

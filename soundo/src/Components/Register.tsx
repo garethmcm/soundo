@@ -22,9 +22,11 @@ function Register() {
     setFormData({ ...formData, [changedField]: newValue });
   };
   
+// logic to register user, also 403 error
+
   const handleRegister = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/register/', {
+        const response = await fetch('http://127.0.0.1:8000/auth/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,6 +43,8 @@ function Register() {
         console.error('Error during registration:', error);
     }
 };
+
+// form to capture user data
 
   return (
     <section className="loginSection">

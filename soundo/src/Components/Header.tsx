@@ -8,6 +8,8 @@ type HeaderProps = {
   showNav: () => void;
 };
 
+//header containing home screen button, app logo and login/register navigation. props above show and hide navBar depending on where user has clicked
+
 function Header({ hideNav, showNav }: HeaderProps) {
   return (
     <header> 

@@ -10,6 +10,8 @@ import Chorus from "../Advanced components/Chorus";
 import PreReverb from "../Advanced components/PreReverb";
 import ConvoReverb from "../Advanced components/ConvoReverb";
 
+// sub menu url routing for advanced techniques, AdvancedNav is associated navbar
+
 function AdvancedTechniques() {
   return (
     <div className="audioBasics">

@@ -6,6 +6,8 @@ import playButton from "/assets/play-circle.svg";
 import stopButton from "/assets/stop-circle.svg";
 import { Frequency } from "tone/build/esm/core/type/Units";
 
+// 3 oscillators showing scope of human hearing in hz
+
 const BackgroundSpiel: React.FC = () => {
   const fatty = useRef<FatOscillator | null>(null);
 
@@ -93,7 +95,7 @@ const handlePlay = (note: string) => {
           <img src={stopButton} alt="Stop" className="buttons" />
         </div>
         <div className="paramDials">
-        <div>4000-18000</div>
+        <div>4000-18000Hz</div>
         <input
           type="range"
           min="4000"

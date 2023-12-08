@@ -31,14 +31,14 @@ const delayPlaylist: delayItems[] = [
   { noteAllocation: "A5", fileLocation: vocals, sampleTitle: "Vocals" },
 ];
 
-// initialise states
+// initialises states
 
 const Delay: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const delay = useRef<PingPongDelay | null>(null);
 
-  // React hook initialises compressor & sampler, connects them and plays output from comp (toDestination)
+  // React hook initialises compressor & sampler, connects them and plays output from delay (toDestination)
 
   useEffect(() => {
     sampler.current = new Sampler(

@@ -81,6 +81,8 @@ const Equalizer: React.FC = () => {
     }
   };
 
+  // takes cues from html section below: allows user to set frequency for high & low and cut and boost accordingly
+
   const adjustEQ = (low: number, mid: number, high: number, lowFreq: Frequency, highFreq: Frequency) => {
     if (eq.current) {
       eq.current.low.value = low;

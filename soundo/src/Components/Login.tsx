@@ -18,6 +18,8 @@ function Login() {
     setFormData({ ...formData, [changedField]: newValue });
   };
 
+  // logic to send login credentials to back end, was refused by server with 403 error on last attempt
+
   const handleLogin = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/login/', {

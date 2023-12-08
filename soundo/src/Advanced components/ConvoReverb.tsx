@@ -14,8 +14,8 @@ import byronGlacier from "/assets/reverbs/ByronGlacier.wav";
 import naumburgBandshell from "/assets/reverbs/NaumburgBandshell.wav";
 import redBridge from "/assets/reverbs/RedBridge.wav";
 
-import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/assets/play-circle.svg";
+import stopButton from "/assets/stop-circle.svg";
 
 interface ConvoItems {
   noteAllocation: string;

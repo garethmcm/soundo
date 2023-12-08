@@ -9,8 +9,8 @@ import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
 import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
-import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/assets/play-circle.svg";
+import stopButton from "/assets/stop-circle.svg";
 
 interface DistItems {
   noteAllocation: string;

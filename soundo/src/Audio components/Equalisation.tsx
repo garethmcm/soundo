@@ -9,8 +9,8 @@ import drums from "/assets/AUDIO SAMPLES/DRUMS.mp3";
 import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
 import vocals from "/assets/AUDIO SAMPLES/VOCAL WITH VERB.mp3";
 
-import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/assets/play-circle.svg";
+import stopButton from "/assets/stop-circle.svg";
 import { Frequency } from "tone/build/esm/core/type/Units";
 
 interface EqItems {
@@ -34,8 +34,6 @@ const Equalizer: React.FC = () => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef<Sampler | null>(null);
   const eq = useRef<EQ3 | null>(null);
-  // const [lowFrequency, setLowFrequency] = useState(0);
-  // const [highFrequency, setHighFrequency] = useState(0);
 
   useEffect(() => {
     sampler.current = new Sampler(

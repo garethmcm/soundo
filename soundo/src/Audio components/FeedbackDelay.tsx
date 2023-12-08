@@ -1,6 +1,6 @@
 import "./AudioComponents.css";
 import React, { useState, useRef, useEffect } from "react";
-import { Sampler, FeedbackDelay, PingPongDelay } from "tone";
+import { Sampler, PingPongDelay } from "tone";
 
 import sunshine from "/assets/AUDIO SAMPLES/YOU ARE MY SUNSHINE.mp3";
 import guitar from "/assets/AUDIO SAMPLES/GUITAR.mp3";
@@ -10,9 +10,9 @@ import piano from "/assets/AUDIO SAMPLES/PIANO.mp3";
 import vocals from "/assets/AUDIO SAMPLES/VOCAL NO VERB.mp3"; 
 
 
-import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
-import { Seconds, Time } from "tone/build/esm/core/type/Units";
+import playButton from "/assets/play-circle.svg";
+import stopButton from "/assets/stop-circle.svg";
+import { Time } from "tone/build/esm/core/type/Units";
 
 interface delayItems {
   noteAllocation: string;

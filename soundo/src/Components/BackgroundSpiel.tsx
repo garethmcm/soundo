@@ -2,8 +2,8 @@ import "../App.css";
 import React, { useEffect, useRef } from 'react';
 import { FatOscillator } from 'tone';
 
-import playButton from "/node_modules/bootstrap-icons/icons/play-circle.svg";
-import stopButton from "/node_modules/bootstrap-icons/icons/stop-circle.svg";
+import playButton from "/assets/play-circle.svg";
+import stopButton from "/assets/stop-circle.svg";
 import { Frequency } from "tone/build/esm/core/type/Units";
 
 const BackgroundSpiel: React.FC = () => {
